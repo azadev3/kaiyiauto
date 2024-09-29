@@ -1,0 +1,1352 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { base, useRequests } from "../../../hooks/useRequests";
+import { CarsType } from "../../../types/ApiTypes";
+import { useRecoilValue } from "recoil";
+import { CarsForSelectedModel } from "./CarsCategory";
+
+export type Descriptions = {
+  id: string;
+  title: string;
+  icon: string;
+};
+
+export interface FilterDataType {
+  id: string;
+  title: string;
+  year: string;
+  vin: string;
+  description: Descriptions[];
+  inStock: string;
+  price: string;
+  companyTitle: string;
+  carImage: string;
+  miniDesc?: string;
+}
+
+export const FilterData: FilterDataType[] = [
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+    miniDesc:
+      "Lorem okfoewkfkeokoe owkrjgreigjriegj regpojregipreoigrio ergiojriojgriogjiorejg iorejigoregjioerjoigrjiogrejiog jreig04  irjgoirjgorjiggo erjgeri ",
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+    miniDesc:
+      "Lorem okfoewkfkeokoe owkrjgreigjriegj regpojregipreoigrio ergiojriojgriogjiorejg iorejigoregjioerjoigrjiogrejiog jreig04  irjgoirjgorjiggo erjgeri ",
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+    miniDesc:
+      "Lorem okfoewkfkeokoe owkrjgreigjriegj regpojregipreoigrio ergiojriojgriogjiorejg iorejigoregjioerjoigrjiogrejiog jreig04  irjgoirjgorjiggo erjgeri ",
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+    miniDesc:
+      "Lorem okfoewkfkeokoe owkrjgreigjriegj regpojregipreoigrio ergiojriojgriogjiorejg iorejigoregjioerjoigrjiogrejiog jreig04  irjgoirjgorjiggo erjgeri ",
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+    miniDesc:
+      "Lorem okfoewkfkeokoe owkrjgreigjriegj regpojregipreoigrio ergiojriojgriogjiorejg iorejigoregjioerjoigrjiogrejiog jreig04  irjgoirjgorjiggo erjgeri ",
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+    miniDesc:
+      "Lorem okfoewkfkeokoe owkrjgreigjriegj regpojregipreoigrio ergiojriojgriogjiorejg iorejigoregjioerjoigrjiogrejiog jreig04  irjgoirjgorjiggo erjgeri ",
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "true",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+  {
+    id: uuidv4(),
+    title: "Lorem 5",
+    year: "2023",
+    vin: "XUUJA2G2*P0****58",
+    carImage: "/car1.jpg",
+    companyTitle: "AutoGERMES",
+    inStock: "false",
+    price: "12.000 ₼",
+    description: [
+      { id: uuidv4(), title: "1.5 l., 147 hp, Petrol", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Variator", icon: "/crant.svg" },
+      { id: uuidv4(), title: "Front", icon: "/crant.svg" },
+    ],
+  },
+];
+
+const Content: React.FC = () => {
+  //for handle sort
+  const [rotateState, setRotateState] = React.useState(0);
+
+  const handleSort = () => {
+    setRotateState((prev) => (prev + 1) % 3);
+  };
+
+  //hover show info modal on the card item
+  const [infoModal, setInfoModal] = React.useState<string | null>(null);
+
+  const handleInfoModal = (id: string | null) => {
+    setInfoModal(id);
+  };
+
+  //GET CARS
+  const { KaiyiCarsData } = useRequests();
+
+  const hasCars = KaiyiCarsData && KaiyiCarsData?.length > 0;
+
+  //if selected models set new cars in the filters
+  const filteredCarsForModel = useRecoilValue(CarsForSelectedModel);
+
+  // Simple pagination
+  const [viewPage, setViewPage] = React.useState<number>(9);
+
+  const handleLoadPag = () => {
+    setViewPage((prevPag) => prevPag + 9);
+  };
+
+  //filter price high to low
+  const [priceHighToLow, setPriceHighToLow] = React.useState<CarsType[]>([]);
+  const [priceLowToHigh, setPriceLowToHigh] = React.useState<CarsType[]>([]);
+
+  React.useEffect(() => {
+    if (rotateState === 1 && KaiyiCarsData?.length > 0) {
+      const highToLow = KaiyiCarsData.slice().sort((a: CarsType, b: CarsType) => {
+        return Number(b.price) - Number(a.price); // high to low
+      });
+      setPriceHighToLow(highToLow);
+    } else if (rotateState === 0 && KaiyiCarsData?.length > 0) {
+      const lowToHigh = KaiyiCarsData.slice().sort((a: CarsType, b: CarsType) => {
+        return Number(a.price) - Number(b.price); // low to high
+      });
+      setPriceLowToHigh(lowToHigh);
+    } else if (rotateState === 2) {
+      setPriceHighToLow([]);
+      setPriceLowToHigh([]);
+    }
+  }, [rotateState]);
+
+  React.useEffect(() => {
+    console.log(rotateState);
+  }, [rotateState]);
+
+  //render for models
+  const RenderCarsForModel = () => {
+    return filteredCarsForModel?.slice(0, viewPage)?.map((data: CarsType) => (
+      <Link to={`/new-cars/${data?._id}`} className="card-item" key={data?._id}>
+        <div className="car-image">
+          <img src={`${base}${data?.carImage}` || ""} alt={`${data?._id}`} title={data?.title} />
+        </div>
+        <div className="description-card">
+          <h1>{data?.title}</h1>
+          <div className="bottom">
+            <div className="vin-and-year">
+              <span>{data?.year}</span>
+              <span>{data?.vin}</span>
+            </div>
+            <section className="in-stock">
+              <span className="title">{data?.inStock}</span>
+            </section>
+          </div>
+        </div>
+        <div className="price-and-autogerm">
+          <div className="price">
+            <span>{data?.price}</span>
+            <img
+              src="/infoimg.svg"
+              alt="info"
+              onMouseEnter={() => handleInfoModal(data?._id)}
+              onMouseLeave={() => setInfoModal(null)}
+            />
+          </div>
+          <div className="bottom-title">
+            <img src="/cursor.svg" alt="cursor" title={data?.companyTitle} />
+            <strong>{data?.companyTitle}</strong>
+            <div className={`modal-information ${infoModal === data?._id && data?.miniDesc ? "active" : ""}`}>
+              <p>{data?.miniDesc}</p>
+            </div>
+          </div>
+        </div>
+      </Link>
+    ));
+  };
+
+  //render only all cars
+  const RenderAllCars = () => {
+    return (
+      hasCars &&
+      KaiyiCarsData &&
+      KaiyiCarsData?.slice(0, viewPage)?.map((data: CarsType) => (
+        <Link to={`/new-cars/${data?._id}`} className="card-item" key={data?._id}>
+          <div className="car-image">
+            <img src={`${base}${data?.carImage}` || ""} alt={`${data?._id}`} title={data?.title} />
+          </div>
+          <div className="description-card">
+            <h1>{data?.title}</h1>
+            <div className="bottom">
+              <div className="vin-and-year">
+                <span>{data?.year}</span>
+                <span>{data?.vin}</span>
+              </div>
+              <section className="in-stock">
+                <span className="title">{data?.inStock}</span>
+              </section>
+            </div>
+          </div>
+          <div className="price-and-autogerm">
+            <div className="price">
+              <span>{data?.price}</span>
+              <img
+                src="/infoimg.svg"
+                alt="info"
+                onMouseEnter={() => handleInfoModal(data?._id)}
+                onMouseLeave={() => setInfoModal(null)}
+              />
+            </div>
+            <div className="bottom-title">
+              <img src="/cursor.svg" alt="cursor" title={data?.companyTitle} />
+              <strong>{data?.companyTitle}</strong>
+              <div className={`modal-information ${infoModal === data?._id && data?.miniDesc ? "active" : ""}`}>
+                <p>{data?.miniDesc}</p>
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))
+    );
+  };
+
+  //render price high to low
+  const RenderPriceHighToLow = () => {
+    return (
+      priceHighToLow &&
+      priceHighToLow?.slice(0, viewPage)?.map((data: CarsType) => (
+        <Link to={`/new-cars/${data?._id}`} className="card-item" key={data?._id}>
+          <div className="car-image">
+            <img src={`${base}${data?.carImage}` || ""} alt={`${data?._id}`} title={data?.title} />
+          </div>
+          <div className="description-card">
+            <h1>{data?.title}</h1>
+            <div className="bottom">
+              <div className="vin-and-year">
+                <span>{data?.year}</span>
+                <span>{data?.vin}</span>
+              </div>
+              <section className="in-stock">
+                <span className="title">{data?.inStock}</span>
+              </section>
+            </div>
+          </div>
+          <div className="price-and-autogerm">
+            <div className="price">
+              <span>{data?.price}</span>
+              <img
+                src="/infoimg.svg"
+                alt="info"
+                onMouseEnter={() => handleInfoModal(data?._id)}
+                onMouseLeave={() => setInfoModal(null)}
+              />
+            </div>
+            <div className="bottom-title">
+              <img src="/cursor.svg" alt="cursor" title={data?.companyTitle} />
+              <strong>{data?.companyTitle}</strong>
+              <div className={`modal-information ${infoModal === data?._id && data?.miniDesc ? "active" : ""}`}>
+                <p>{data?.miniDesc}</p>
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))
+    );
+  };
+
+  //render price low to hihg
+  const RenderPriceLowToHigh = () => {
+    return (
+      priceLowToHigh &&
+      priceLowToHigh?.slice(0, viewPage)?.map((data: CarsType) => (
+        <Link to={`/new-cars/${data?._id}`} className="card-item" key={data?._id}>
+          <div className="car-image">
+            <img src={`${base}${data?.carImage}` || ""} alt={`${data?._id}`} title={data?.title} />
+          </div>
+          <div className="description-card">
+            <h1>{data?.title}</h1>
+            <div className="bottom">
+              <div className="vin-and-year">
+                <span>{data?.year}</span>
+                <span>{data?.vin}</span>
+              </div>
+              <section className="in-stock">
+                <span className="title">{data?.inStock}</span>
+              </section>
+            </div>
+          </div>
+          <div className="price-and-autogerm">
+            <div className="price">
+              <span>{data?.price}</span>
+              <img
+                src="/infoimg.svg"
+                alt="info"
+                onMouseEnter={() => handleInfoModal(data?._id)}
+                onMouseLeave={() => setInfoModal(null)}
+              />
+            </div>
+            <div className="bottom-title">
+              <img src="/cursor.svg" alt="cursor" title={data?.companyTitle} />
+              <strong>{data?.companyTitle}</strong>
+              <div className={`modal-information ${infoModal === data?._id && data?.miniDesc ? "active" : ""}`}>
+                <p>{data?.miniDesc}</p>
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))
+    );
+  };
+
+  return (
+    <div className="content">
+      <div className="sorted-by-price">
+        <span>Sort by </span>
+        <div className={`icon ${`class-${rotateState}`}`} onClick={handleSort}>
+          <strong>price</strong>
+          <img src="/sorticon.svg" alt="sort-by-price" onClick={handleSort} />{" "}
+        </div>
+      </div>
+
+      <div className="cards">
+        {filteredCarsForModel?.length > 0
+          ? RenderCarsForModel()
+          : priceHighToLow?.length > 0
+          ? RenderPriceHighToLow()
+          : priceLowToHigh?.length > 0
+          ? RenderPriceLowToHigh()
+          : filteredCarsForModel?.length === 0
+          ? RenderAllCars()
+          : RenderAllCars()}
+      </div>
+      {(filteredCarsForModel?.length > viewPage || KaiyiCarsData?.length > viewPage) && (
+        <div className="more-btn">
+          <button onClick={handleLoadPag}>Daha çox</button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Content;
