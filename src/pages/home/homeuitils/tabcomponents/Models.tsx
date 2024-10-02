@@ -2,14 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { base, useRequests } from "../../../../hooks/useRequests";
 import { ModelsType } from "../../../../types/ApiTypes";
+import { useTranslates } from "../../../../hooks/useTranslates";
 const Models: React.FC = () => {
 
   const { ModelsData } = useRequests();
 
+  const { translations } = useTranslates();
+
   return (
     <section className="models-component-wrapper">
       <div className="models-component">
-        <h2>Modellər</h2>
+        <h2>{translations['modeller_title']}</h2>
         <div className="models-container">
           {ModelsData &&
             ModelsData?.map((items: ModelsType) => (

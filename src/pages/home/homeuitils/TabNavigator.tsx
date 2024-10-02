@@ -11,8 +11,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
+import { useTranslates } from "../../../hooks/useTranslates";
 
 const TabNavigator: React.FC = () => {
+
+  const { translations } = useTranslates();
+
   //ACTIVE - DEACTIVE TAB CONTROLS
   const [activeTab, setActiveTab] = React.useState<number | null>(null);
 
@@ -21,13 +25,13 @@ const TabNavigator: React.FC = () => {
 
   //TAB AND HER COMPONENT ITEMS
   const TabNavigatorItems: TabNavigatorTypes[] = [
-    { id: 1, title: "dizayn", ref: React.useRef<HTMLElement>(null), component: <Design /> },
-    { id: 2, title: "interyer", ref: React.useRef<HTMLElement>(null), component: <Interier /> },
-    { id: 3, title: "təhlükəsizlik", ref: React.useRef<HTMLElement>(null), component: <Security /> },
-    { id: 4, title: "baxış", ref: React.useRef<HTMLElement>(null), component: <View /> },
-    { id: 5, title: "rahatlıq", ref: React.useRef<HTMLElement>(null), component: <Comfortable /> },
-    { id: 6, title: "modellər", ref: React.useRef<HTMLElement>(null), component: <Models /> },
-    { id: 7, title: "xəbərlər", ref: React.useRef<HTMLElement>(null), component: <News /> },
+    { id: 1, title: `${translations['design_title']}`, ref: React.useRef<HTMLElement>(null), component: <Design /> },
+    { id: 2, title: `${translations['interier_title']}`, ref: React.useRef<HTMLElement>(null), component: <Interier /> },
+    { id: 3, title: `${translations['security_title']}`, ref: React.useRef<HTMLElement>(null), component: <Security /> },
+    { id: 4, title: `${translations['view_title']}`, ref: React.useRef<HTMLElement>(null), component: <View /> },
+    { id: 5, title: `${translations['rahatliq_key']}`, ref: React.useRef<HTMLElement>(null), component: <Comfortable /> },
+    { id: 6, title: `${translations['modeller_title']}`, ref: React.useRef<HTMLElement>(null), component: <Models /> },
+    { id: 7, title: `${translations['news_title']}`, ref: React.useRef<HTMLElement>(null), component: <News /> },
   ];
 
   //CREATE INTERSECTION OBSERVE

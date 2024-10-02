@@ -4,8 +4,12 @@ import { api } from "../../../hooks/useRequests";
 import { toast } from "react-toastify";
 import Loader from "../../../ui/Loader";
 import moment from "moment";
+import { useTranslates } from "../../../hooks/useTranslates";
 
 const SubscribeSection: React.FC = () => {
+ 
+  const { translations } = useTranslates();
+
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const [email, setEmail] = React.useState<string>("");
@@ -51,25 +55,25 @@ const SubscribeSection: React.FC = () => {
   return (
     <section className="subscribe-on-news-wrapper">
       <div className="subscribe-on-news">
-        <h2>xəbərlərə abunə ol</h2>
+        <h2>{translations['xeberlere_abone_ol']}</h2>
 
         <form acceptCharset="UTF-8" onSubmit={submitForm}>
           <div className="subscribe-input">
             <input
               value={email || ""}
               type="email"
-              placeholder="Email*"
+              placeholder={`${translations['email_placeholder']}`}
               required
               name="email"
               onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             />
             <button disabled={loading} className="submit-btn" type="submit">
-              {loading ? <Loader /> : "Göndər"}
+              {loading ? <Loader /> : `${translations['gonder_button']}`}
             </button>
           </div>
           <div className="checkbox-agree">
             <input required type="checkbox" id="rules" name="rules" />
-            <span>Şəxsi məlumatların emalı ilə razıyam</span>
+            <span>{translations['sexsi_melumatlarin_emali_ile_raziyam']}</span>
           </div>
         </form>
       </div>

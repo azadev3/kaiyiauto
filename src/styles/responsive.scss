@@ -40,6 +40,9 @@
 }
 
 @media only screen and (max-width: 1000px) {
+  .cars-in-stock-page-wrapper {
+    padding: 0px 24px;
+  }
   .topheader-wrapper {
     display: none;
   }
@@ -612,6 +615,31 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .cars-in-stock-page-wrapper .cars-in-stock-page .carscategory .swiper .swiper-slide {
+    padding: 4px 0px;
+  }
+  .cars-in-stock-page-wrapper .cars-in-stock-page h1 {
+    font-size: 24px;
+  }
+  .cars-in-stock-page-wrapper .cars-in-stock-page .carscategory {
+    margin-top: 24px;
+  }
+  .cars-in-stock-page-wrapper {
+    margin-top: 24px;
+  }
+  .cars-in-stock-page-wrapper .cars-in-stock-page .main-filtered-area .content .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cars-in-stock-page-wrapper .cars-in-stock-page .main-filtered-area {
+    margin-top: 36px;
+    flex-direction: column;
+  }
+  .cars-in-stock-page-wrapper .cars-in-stock-page .main-filtered-area .filter {
+    width: 100%;
+  }
+  .cars-in-stock-page-wrapper .cars-in-stock-page .main-filtered-area .content {
+    width: 100%;
+  }
   .blogs-wrapper .blogs-page .grid-blogs,
   .blogs-wrapper .blogs-page .grid-news,
   .blogs-wrapper .news-page .grid-blogs,
@@ -742,6 +770,9 @@
 }
 
 @media only screen and (max-width: 468px) {
+  .cars-in-stock-page-wrapper .cars-in-stock-page .main-filtered-area .content .cards {
+    grid-template-columns: repeat(1, 1fr);
+  }
   .app .no-content-msg-wrapper .no-content-msg .title {
     flex-direction: column;
   }

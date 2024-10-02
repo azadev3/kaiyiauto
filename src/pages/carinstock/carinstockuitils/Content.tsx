@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { base, useRequests } from "../../../hooks/useRequests";
 import { CarsType } from "../../../types/ApiTypes";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { CarsForSelectedModel } from "./CarsCategory";
+import { carColorsData, selectedColorState } from "./filtercatalog/BodyColorFilter";
+import { RefreshButtonClickedState } from "./Filter";
+import { useTranslates } from "../../../hooks/useTranslates";
 
 export type Descriptions = {
   id: string;
@@ -1091,8 +1094,14 @@ export const FilterData: FilterDataType[] = [
 ];
 
 const Content: React.FC = () => {
+
+  const { translations } = useTranslates();
+
+  //Refresh filter
+  const [refreshFilters, setRefreshFilters] = useRecoilState(RefreshButtonClickedState);
+
   //for handle sort
-  const [rotateState, setRotateState] = React.useState(0);
+  const [rotateState, setRotateState] = React.useState(2);
 
   const handleSort = () => {
     setRotateState((prev) => (prev + 1) % 3);
@@ -1121,29 +1130,33 @@ const Content: React.FC = () => {
   };
 
   //filter price high to low
-  const [priceHighToLow, setPriceHighToLow] = React.useState<CarsType[]>([]);
-  const [priceLowToHigh, setPriceLowToHigh] = React.useState<CarsType[]>([]);
+  const [sortedCarsData, setSortedCarsData] = React.useState<CarsType[]>([]);
 
+  // useEffect to handle sorting based on rotateState
   React.useEffect(() => {
-    if (rotateState === 1 && KaiyiCarsData?.length > 0) {
-      const highToLow = KaiyiCarsData.slice().sort((a: CarsType, b: CarsType) => {
-        return Number(b.price) - Number(a.price); // high to low
-      });
-      setPriceHighToLow(highToLow);
-    } else if (rotateState === 0 && KaiyiCarsData?.length > 0) {
-      const lowToHigh = KaiyiCarsData.slice().sort((a: CarsType, b: CarsType) => {
-        return Number(a.price) - Number(b.price); // low to high
-      });
-      setPriceLowToHigh(lowToHigh);
-    } else if (rotateState === 2) {
-      setPriceHighToLow([]);
-      setPriceLowToHigh([]);
+    let sortedData: CarsType[] = [];
+
+    if (KaiyiCarsData?.length > 0) {
+      if (rotateState === 1) {
+        // Sort by price high to low
+        sortedData = KaiyiCarsData.slice().sort((a: CarsType, b: CarsType) => Number(b.price) - Number(a.price));
+      } else if (rotateState === 2) {
+        // Sort by price low to high
+        sortedData = KaiyiCarsData.slice().sort((a: CarsType, b: CarsType) => Number(a.price) - Number(b.price));
+      } else {
+        // Reset sorting when rotateState is 0
+        sortedData = KaiyiCarsData.slice(); // Original order
+      }
     }
-  }, [rotateState]);
 
-  React.useEffect(() => {
-    console.log(rotateState);
-  }, [rotateState]);
+    // Update sorted data state
+    setSortedCarsData(sortedData);
+
+    // Reset filters when sorting is reset
+    if (rotateState === 0) {
+      setRefreshFilters("");
+    }
+  }, [rotateState, KaiyiCarsData]);
 
   //render for models
   const RenderCarsForModel = () => {
@@ -1232,10 +1245,10 @@ const Content: React.FC = () => {
   };
 
   //render price high to low
-  const RenderPriceHighToLow = () => {
+  const RenderPriceFilter = () => {
     return (
-      priceHighToLow &&
-      priceHighToLow?.slice(0, viewPage)?.map((data: CarsType) => (
+      sortedCarsData &&
+      sortedCarsData?.slice(0, viewPage)?.map((data: CarsType) => (
         <Link to={`/new-cars/${data?._id}`} className="card-item" key={data?._id}>
           <div className="car-image">
             <img src={`${base}${data?.carImage}` || ""} alt={`${data?._id}`} title={data?.title} />
@@ -1275,11 +1288,12 @@ const Content: React.FC = () => {
     );
   };
 
-  //render price low to hihg
-  const RenderPriceLowToHigh = () => {
+  //render for selected colors cars
+  const [carForColorsData, setCarForColorsData] = useRecoilState(carColorsData);
+  const RenderCarsForColors = () => {
     return (
-      priceLowToHigh &&
-      priceLowToHigh?.slice(0, viewPage)?.map((data: CarsType) => (
+      carForColorsData &&
+      carForColorsData?.slice(0, viewPage)?.map((data: CarsType) => (
         <Link to={`/new-cars/${data?._id}`} className="card-item" key={data?._id}>
           <div className="car-image">
             <img src={`${base}${data?.carImage}` || ""} alt={`${data?._id}`} title={data?.title} />
@@ -1318,13 +1332,25 @@ const Content: React.FC = () => {
       ))
     );
   };
+
+  const [_, setSelectedColor] = useRecoilState(selectedColorState);
+
+  React.useEffect(() => {
+    if (refreshFilters === "refreshed") {
+      setSortedCarsData([]);
+      setRotateState(2);
+      setCarForColorsData([]);
+      setSelectedColor(null);
+      setRefreshFilters("");
+    }
+  }, [refreshFilters]);
 
   return (
     <div className="content">
       <div className="sorted-by-price">
-        <span>Sort by </span>
+        <span>{translations['sort_by']}</span>
         <div className={`icon ${`class-${rotateState}`}`} onClick={handleSort}>
-          <strong>price</strong>
+          <strong>{translations['price']}</strong>
           <img src="/sorticon.svg" alt="sort-by-price" onClick={handleSort} />{" "}
         </div>
       </div>
@@ -1332,10 +1358,12 @@ const Content: React.FC = () => {
       <div className="cards">
         {filteredCarsForModel?.length > 0
           ? RenderCarsForModel()
-          : priceHighToLow?.length > 0
-          ? RenderPriceHighToLow()
-          : priceLowToHigh?.length > 0
-          ? RenderPriceLowToHigh()
+          : sortedCarsData?.length > 0
+          ? RenderPriceFilter()
+          : carForColorsData && carForColorsData?.length > 0
+          ? RenderCarsForColors()
+          : carForColorsData?.length === 0
+          ? RenderAllCars()
           : filteredCarsForModel?.length === 0
           ? RenderAllCars()
           : RenderAllCars()}

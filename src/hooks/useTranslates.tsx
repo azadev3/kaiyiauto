@@ -37,11 +37,13 @@ export const useTranslates = () => {
         throw new Error(`Error fetching translations: ${error}`);
       }
     },
+    staleTime: 1000 * 60 * 60,
     retry: 1,
   });
 
   if (error) {
     console.error("Error fetching translations:", error);
   }
-  return { translations };
+ 
+  return { translations, isLoading };
 };

@@ -4,94 +4,95 @@ import { Link } from "react-router-dom";
 import { base, useRequests } from "../hooks/useRequests";
 import { useRecoilState } from "recoil";
 import { HeaderDropdownState } from "./Header";
-import { IoCloseOutline } from "react-icons/io5";
+import { IoChevronDown, IoCloseOutline } from "react-icons/io5";
 import { ChildrenSub, HeaderItemsTypes, HeaderSubItem } from "../types/HeaderTypes";
-import { FaAngleRight, FaChevronLeft } from "react-icons/fa6";
+import { useTranslates } from "../hooks/useTranslates";
+import { FaChevronLeft } from "react-icons/fa";
+import LanguageSelector from "./LanguageSelector";
 import { ModelsType } from "../types/ApiTypes";
 
 const MobileHeader: React.FC = () => {
+  const { translations } = useTranslates();
+
   const { ModelsData } = useRequests();
+
+  const hasModels = ModelsData && ModelsData?.length > 0;
 
   const HeaderItems: HeaderItemsTypes[] = [
     {
       id: 1,
-      title: "Model çeşidləri",
-      icon: <FaAngleRight className="downicon" />,
-      subitems: [
-        {
-          id: 2,
-          children: ModelsData?.map((data: ModelsType) => ({
-            id: data?._id,
-            title: data?.title,
-            image: data?.image,
-            slogan: data?.slogan,
-            to: data?._id,
-          })),
-          title: "Sedan, Crossovers",
-          to: "",
-        },
-      ],
+      title: `${translations["model_cesidleri"]}`,
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [],
     },
     {
       id: 2,
-      title: "alıcılar üçün",
-      to: "",
-      icon: <FaAngleRight className="downicon" />,
-      subitems: [
-        {
-          id: 4,
-          title: "",
-          children: [
-            { id: 14, title: "Test sürüşü üçün qeydiyyatdan keç", to: "/test-drive" },
-            { id: 15, title: "Korporativ müştərilər üçün", to: "/corporate-customer" },
-          ],
-        },
-      ],
-    },
-    {
-      id: 3,
-      title: "Sahiblərinə",
-      to: "",
-      icon: <FaAngleRight className="downicon" />,
-      subitems: [
-        {
-          id: 33,
-          title: "",
-          children: [
-            { id: 133, title: "KAIYI Qarantiya Xidməti", to: "/guarantee" },
-            { id: 1333, title: "Yol qaydaları", to: "/road-rules" },
-            { id: 13333, title: "Təmir və Baxım", to: "/repair-rules" },
-          ],
-        },
-      ],
-    },
-    {
-      id: 6,
-      title: "ey kaıyı",
-      to: "",
-      icon: <FaAngleRight className="downicon" />,
-      subitems: [
-        {
-          id: 16,
-          title: "",
-          children: [
-            { id: 166, title: "Marka KAIYI", to: "/brend-kaiyi" },
-            { id: 1666, title: "Blog", to: "/blogs" },
-            { id: 16666, title: "News", to: "/news" },
-            { id: 166666, title: "Əlaqə", to: "/contact" },
-          ],
-        },
-      ],
-    },
-    {
-      id: 8,
-      title: "əldə olan maşınlar",
+      title: `${translations["elde_olan_masinlar"]}`,
       to: "/new-cars",
     },
     {
-      id: 243,
-      title: "satış nöqtəsi tap",
+      id: 3,
+      title: `${translations["satis_noqtesi_tap"]}`,
       to: "/find-dealer",
+    },
+    {
+      id: 4,
+      title: `${translations["alicilar_ucun"]}`,
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 55,
+          title: "",
+          children: [
+            { id: 654, title: `${translations["test_surusu_ucun_qeydiyyatdan_kec"]}`, to: "/test-drive" },
+            { id: 656, title: `${translations["korporativ_musteriler_ucun"]}`, to: "/corporate-customer" },
+            // { id: uuid(), title: "Xüsusi təkliflər", to: "/special-offers" },
+            // { id: uuid(), title: "Maşın siğortası", to: "/car-insurance" },
+            // { id: uuid(), title: "Lending" },
+          ],
+        },
+      ],
+    },
+    {
+      id: 5,
+      title: `${translations["sahiblerine"]}`,
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 1233,
+          title: "",
+          children: [
+            { id: 90001, title: `${translations["kaiyi_garantiya_xidmeti"]}`, to: "/guarantee" },
+            { id: 90002, title: `${translations["yol_qaydalari"]}`, to: "/road-rules" },
+            { id: 90003, title: `${translations["temir_ve_baxim"]}`, to: "/repair-rules" },
+          ],
+        },
+      ],
+    },
+    // {
+    //   id: uuid(),
+    //   title: "Diler ol",
+    //   to: "/become-dealer",
+    // },
+    {
+      id: 6,
+      title: "EY KAIYI",
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 994,
+          title: "",
+          children: [
+            { id: 9193, title: `${translations["marka_kaiyi"]}`, to: "/brend-kaiyi" },
+            { id: 9293, title: `${translations["blog"]}`, to: "/blogs" },
+            { id: 9393, title: `${translations["yenilikler"]}`, to: "/news" },
+            { id: 9493, title: `${translations["elaqe"]}`, to: "/contact" },
+          ],
+        },
+      ],
     },
   ];
 
@@ -156,7 +157,7 @@ const MobileHeader: React.FC = () => {
                 {items.subitems ? (
                   <div className="dropdown" onClick={() => handleDropdownMenu(items?.id)}>
                     <span>{items?.title}</span>
-                    <span>{items?.icon}</span>
+                    <span style={{ transform: "rotate(-90deg)" }}>{items?.icon}</span>
                   </div>
                 ) : (
                   <Link
@@ -177,29 +178,25 @@ const MobileHeader: React.FC = () => {
                 <FaChevronLeft className="close-icon" />
               </div>
               <div className="subitems">
-                {items?.id === 1
-                  ? items?.subitems?.map(
-                      (subitems: HeaderSubItem) =>
-                        subitems?.id === 2 &&
-                        subitems?.children?.map((child: ChildrenSub) => (
-                          <Link
-                            to={`/${child?.to}`}
-                            onClick={() => {
-                              setDropdown(null);
-                              setToggleMenu(false);
-                            }}
-                            className="model-item"
-                            key={child?._id}>
-                            <div className="car-image">
-                              <img src={`${base}${child?.image}`} alt="car-image" />
-                            </div>
-                            <div className="description">
-                              <h1>{child?.title}</h1>
-                              <p>{child?.slogan}</p>
-                            </div>
-                          </Link>
-                        ))
-                    )
+                {items?.id === 1 && hasModels
+                  ? ModelsData?.map((item: ModelsType) => (
+                      <Link
+                        to={`/${item?._id}`}
+                        onClick={() => {
+                          setDropdown(null);
+                          setToggleMenu(false);
+                        }}
+                        className="model-item"
+                        key={item?._id}>
+                        <div className="car-image">
+                          <img src={`${base}${item?.image}`} alt="car-image" />
+                        </div>
+                        <div className="description">
+                          <h1>{item?.title}</h1>
+                          <p>{item?.slogan}</p>
+                        </div>
+                      </Link>
+                    ))
                   : items?.subitems?.map((subitems: HeaderSubItem) =>
                       subitems?.children?.map((child: ChildrenSub) => (
                         <Link
@@ -215,6 +212,10 @@ const MobileHeader: React.FC = () => {
               </div>
             </div>
           ))}
+
+          <div className="language-area">
+            <LanguageSelector />
+          </div>
         </div>
       </div>
     </div>

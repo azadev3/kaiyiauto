@@ -16,10 +16,13 @@ import {
   KaiyiHistoryHero,
   KaiyiHistoryNews,
   LogoType,
+  ModelPdf,
   ModelsType,
   NewsType,
   OurAdvantagesType,
   RepairHero,
+  RepairRulesDownloadData,
+  Socials,
   TestDriveType,
   TopHeaderLocationType,
   TopHeaderTelephoneType,
@@ -95,6 +98,10 @@ export const useRequests = () => {
         queryFn: () => fetchData(`${api}/comfortablefront`, headers),
       },
       {
+        queryKey: ["modelPdfTabKey", selectedLang],
+        queryFn: () => fetchData(`${api}/modelpdf-front`, headers),
+      },
+      {
         queryKey: ["modelsKey", selectedLang],
         queryFn: () => fetchData(`${api}/modelstabfront`, headers),
       },
@@ -159,6 +166,10 @@ export const useRequests = () => {
         queryFn: () => fetchData(`${api}/repair-herofront`, headers),
       },
       {
+        queryKey: ["repairRulesDownloadKey", selectedLang],
+        queryFn: () => fetchData(`${api}/repair-rulesdownloadfront`, headers),
+      },
+      {
         queryKey: ["kaiyiHistoryHeroKey", selectedLang],
         queryFn: () => fetchData(`${api}/kaiyi-history-herofront`, headers),
       },
@@ -182,6 +193,10 @@ export const useRequests = () => {
         queryKey: ["kaiyiCarsDataKey", selectedLang],
         queryFn: () => fetchData(`${api}/add-car-front`, headers),
       },
+      {
+        queryKey: ["socialsData", selectedLang],
+        queryFn: () => fetchData(`${api}/social-media-front`, headers),
+      },
     ],
   });
 
@@ -195,6 +210,7 @@ export const useRequests = () => {
     securityData,
     viewData,
     comfortableData,
+    modelPdfData,
     modelsData,
     newsData,
     becomeDealerData,
@@ -211,12 +227,14 @@ export const useRequests = () => {
     trafficRulesHelped,
     trafficRulesBottomData,
     repairHeroData,
+    repairRulesDownloadData,
     kaiyiHistoryHero,
     kaiyiHistoryBottom,
     kaiyiHistoryBlogs,
     kaiyiHistoryNews,
     kaiyiHistoryContactHero,
     kaiyiCarsData,
+    socialsData,
   ] = queries.map((query) => query.data || []);
 
   return {
@@ -229,6 +247,7 @@ export const useRequests = () => {
     SecurityData: securityData as DesignType[],
     ViewTabData: viewData as DesignType[],
     ComfortableData: comfortableData as DesignType[],
+    ModelPdfData: modelPdfData as ModelPdf[],
     ModelsData: modelsData as ModelsType[],
     NewsData: newsData as NewsType[],
     BecomeDealerData: becomeDealerData as BecomeDealerType[],
@@ -245,11 +264,13 @@ export const useRequests = () => {
     TrafficRulesHelpedData: trafficRulesHelped as TrafficRulesHelped[],
     TrafficRulesBottomData: trafficRulesBottomData as TrafficRulesBottom[],
     RepairHeroData: repairHeroData as RepairHero[],
+    RepairRulesDownloadData: repairRulesDownloadData as RepairRulesDownloadData[],
     KaiyiHistoryHero: kaiyiHistoryHero as KaiyiHistoryHero[],
     KaiyiHistoryBottom: kaiyiHistoryBottom as KaiyiHistoryBottom[],
     KaiyiHistoryBlogs: kaiyiHistoryBlogs as KaiyiHistoryBlogs[],
     KaiyiHistoryNews: kaiyiHistoryNews as KaiyiHistoryNews[],
     KaiyiHistoryContactHero: kaiyiHistoryContactHero as KaiyiHistoryContactHero[],
     KaiyiCarsData: kaiyiCarsData as CarsType[],
+    SocialsData: socialsData as Socials[],
   };
 };

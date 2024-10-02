@@ -9,10 +9,13 @@ import { base, useRequests } from "../../../../hooks/useRequests";
 import { KaiyiHistoryNews } from "../../../../types/ApiTypes";
 import { useRecoilValue } from "recoil";
 import { SelectedLanguageState } from "../../../../recoil/Atom";
+import { useTranslates } from "../../../../hooks/useTranslates";
 
 const News: React.FC = () => {
   const { KaiyiHistoryNews } = useRequests();
 
+  const { translations } = useTranslates();
+ 
   const hasNews = KaiyiHistoryNews && KaiyiHistoryNews?.length > 0;
 
   //CUSTOM SWIPER BUTTONS
@@ -24,12 +27,10 @@ const News: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const selectedLang = useRecoilValue(SelectedLanguageState);
-
   return (
     <section className="news-component-wrapper">
       <div className="news-component">
-        <h2>xəbərlər</h2>
+        <h2>{translations['news_title']}</h2>
 
         <div className="carousel-news">
           <Swiper
@@ -55,7 +56,7 @@ const News: React.FC = () => {
               KaiyiHistoryNews?.map((items: KaiyiHistoryNews) => (
                 <SwiperSlide key={items?._id} className="blog-item"
                 onClick={() => {
-                  navigate(`/${selectedLang}/news/${items?.slug}`)
+                  navigate(`/news/${items?._id}`)
                 }}
                 >
                   <div className="top">
@@ -68,7 +69,7 @@ const News: React.FC = () => {
                   </div>
                   <div className="button-area">
                     <Link to={`/news/${items?.title}`} className="read-more-btn">
-                      <span>read more</span>
+                      <span>{translations['read_more_button']}</span>
                       <FaChevronRight className="rightdown" />
                     </Link>
                   </div>

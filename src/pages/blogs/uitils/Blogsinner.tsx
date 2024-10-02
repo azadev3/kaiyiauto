@@ -1,59 +1,21 @@
 import React from "react";
-import { api, base, useRequests } from "../../../hooks/useRequests";
+import { base, useRequests } from "../../../hooks/useRequests";
 import { KaiyiHistoryBlogs } from "../../../types/ApiTypes";
 import DOMPurify from "dompurify";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { SelectedLanguageState } from "../../../recoil/Atom";
-import { useParams, useNavigate } from "react-router-dom";
-import Loader from "../../../ui/Loader";
+import { useParams } from "react-router-dom";
 
 const Blogsinner: React.FC = () => {
-  const { slug, lang } = useParams<{ slug: string; lang: string }>();
-  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const { KaiyiHistoryBlogs } = useRequests();
-  const [blog, setBlog] = React.useState<KaiyiHistoryBlogs[]>([]);
 
-  const selectedLang = useRecoilValue(SelectedLanguageState);
-
-  const findedSlug =
+  const blog =
     KaiyiHistoryBlogs &&
     KaiyiHistoryBlogs.find((blogs: KaiyiHistoryBlogs) => {
-      return blogs?.slug;
-    })?.slug;
-
-  React.useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await axios.get(`${api}/${selectedLang}/blog/${findedSlug}`, {
-          headers: {
-            "Accept-Language": selectedLang,
-          },
-        });
-        if (response.data) {
-          setBlog(response.data);
-        } else {
-          console.log(response.status);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchBlog();
-  }, [selectedLang, findedSlug]);
-
-  // update URL
-  React.useEffect(() => {
-    if (slug !== findedSlug || lang !== selectedLang) {
-      navigate(`/${selectedLang}/blog/${findedSlug}`, { replace: true });
-    }
-  }, [selectedLang, findedSlug, lang, navigate]);
+      return blogs?._id === id;
+    });
 
   return (
     <main className="blogs-inner-page-wrapper">
-      {blog ? (
-        blog.map((blog: KaiyiHistoryBlogs) => (
           <div className="blogs-inner-page" key={blog?._id}>
             <h1>{blog?.title}</h1>
             <strong className="time">
@@ -77,13 +39,9 @@ const Blogsinner: React.FC = () => {
 
             <div
               className="description-blogs"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog?.description) }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog?.description ? blog?.description : "") }}
             />
           </div>
-        ))
-      ) : (
-        <Loader />
-      )}
     </main>
   );
 };

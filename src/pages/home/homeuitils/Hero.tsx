@@ -6,8 +6,12 @@ import { Pagination } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { base, useRequests } from "../../../hooks/useRequests";
 import { HeroType } from "../../../types/ApiTypes";
+import { useTranslates } from "../../../hooks/useTranslates";
 
 const Hero: React.FC = () => {
+
+  const { translations } = useTranslates();
+
   const { HeroData } = useRequests();
 
   //CUSTOM PREV AND NEXT BUTTONS ON SWIPER
@@ -57,8 +61,8 @@ const Hero: React.FC = () => {
                       alt="mini-logo"
                       title={items?.miniImage}
                     />
-                    <Link to="" className="for-more-btn">
-                      daha çox
+                    <Link to="/new-cars" className="for-more-btn">
+                      {translations['daha_cox_buttons']}
                     </Link>
                   </div>
                 </div>

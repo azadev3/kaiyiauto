@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa6";
@@ -8,8 +8,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
-import { base, useRequests } from "../../hooks/useRequests";
+import { api, base, useRequests } from "../../hooks/useRequests";
 import { CarsType } from "../../types/ApiTypes";
+import axios from "axios";
+import moment from "moment";
+import { toast } from "react-toastify";
+import { useTranslates } from "../../hooks/useTranslates";
 
 interface SpecificationsNav {
   id: number;
@@ -67,6 +71,9 @@ const AccordionData: Accordion[] = [
 ];
 
 const InnerCar: React.FC = () => {
+
+  const { translations } = useTranslates();
+
   const { carid } = useParams();
 
   const { KaiyiCarsData } = useRequests();
@@ -137,6 +144,50 @@ const InnerCar: React.FC = () => {
 
   const navigate = useNavigate();
 
+  //Submit form for manager contacts
+  const [name, setName] = React.useState<string>("");
+  const [surname, setSurname] = React.useState<string>("");
+  const [telephone, setTelephone] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    try {
+      const dataForManagerContact = {
+        name: name,
+        surname: surname,
+        telephone: telephone,
+        created_at: moment().format("DD.MM.YYYY"),
+        hours: moment().format("HH:mm"),
+      };
+      const response = await axios.post(`${api}/contact-manager`, dataForManagerContact);
+
+      if (response.data) {
+        toast.success("Məlumatlarınız müvəffəqiyyətlə Menecerə göndərildi!", {
+          position: "top-center",
+        });
+        setName("");
+        setSurname("");
+        setTelephone("");
+      } else {
+        toast.error("Bir problem oldu, xahiş edirik biraz gözləyin və yenidən yoxlayın...", {
+          position: "top-center",
+        });
+        console.log(response.status);
+      }
+    } catch (error) {
+      toast.error("Bir problem oldu, xahiş edirik biraz gözləyin və yenidən yoxlayın...", {
+        position: "top-center",
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <div className="inner-car-page-wrapper">
       <div className="inner-car-page">
@@ -148,7 +199,7 @@ const InnerCar: React.FC = () => {
           <section className="get-back">
             <Link to="/new-cars" className="button-back">
               <FaChevronLeft className="iconleft" />
-              <span>Maşınların siyahısı</span>
+              <span>{translations['masinlarin_siyahisi_title']}</span>
             </Link>
           </section>
 
@@ -176,10 +227,15 @@ const InnerCar: React.FC = () => {
                       onMouseEnter={() => handleInfoModal(innerCarData?._id || "")}
                       onMouseLeave={() => setInfoModal(null)}
                     />
-                    <span>More about the price</span>
+                    <span>{translations['more_about_the_price']}</span>
                   </div>
                 </div>
-                <button>Daha çox</button>
+                <button
+                  onClick={() => {
+                    window.scrollTo({ top: 1150 - 457, behavior: "smooth" });
+                  }}>
+                  {translations['daha_cox_buttons']}
+                </button>
 
                 <div className="bottom">
                   <div className="autogerm">
@@ -200,7 +256,7 @@ const InnerCar: React.FC = () => {
               </div>
             </div>
           </section>
-
+{/* 
           <section className="specifications">
             <div className="navigators">
               {Nav?.map((nav: SpecificationsNav) => (
@@ -221,26 +277,48 @@ const InnerCar: React.FC = () => {
                 }
               })}
             </div>
-          </section>
+          </section> */}
 
           <section className="contact-with-manager">
-            <h2>menecerlə əlaqə</h2>
-            <form action="" acceptCharset="UTF-8" className="form-manage">
-              <input type="text" name="name" id="name" placeholder="Ad*" />
-              <input type="text" name="surname" id="surname" placeholder="Soyad*" />
-              <PhoneInput country={"az"} onlyCountries={["az", "tr", "us", "de", "ru", "uz"]} />
+            <h2>{translations['contact_for_manager_title']}</h2>
+            <form acceptCharset="UTF-8" className="form-manage" onSubmit={handleSubmitForm}>
+              <input
+                value={name}
+                required
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                type="text"
+                name="name"
+                id="name"
+                placeholder={`${translations['ad_placeholder']}`}
+              />
+              <input
+                value={surname}
+                type="text"
+                name="surname"
+                id="surname"
+                placeholder={`${translations['soyad_placeholder']}`}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setSurname(e.target.value)}
+              />
+              <PhoneInput
+                value={telephone}
+                country={"az"}
+                onlyCountries={["az", "tr", "us", "de", "ru", "uz"]}
+                onChange={(value: string) => setTelephone(value)}
+              />
               <div className="rules">
-                <input type="checkbox" />
-                <Link to="">Şəxsi məlumatların emalı ilə razıyam</Link>
+                <input type="checkbox" required />
+                <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
               </div>
               <div className="btn">
-                <button type="submit">Göndər</button>
+                <button type="submit" disabled={loading}>
+                  {loading ? `${translations['gonderilir_title']}` : `${translations['gonder_button']}`}
+                </button>
               </div>
             </form>
           </section>
 
           <section className="similiar-cars">
-            <h2>Oxşar maşınlar</h2>
+            <h2>{translations['oxsar_masinlar_title']}</h2>
             <div className="carousel-cars">
               <Swiper
                 onSwiper={(swiper) => {
@@ -251,49 +329,52 @@ const InnerCar: React.FC = () => {
                 navigation={true}
                 modules={[Navigation, Pagination]}
                 className="mySwiper">
-                {KaiyiCarsData && KaiyiCarsData?.map((data: CarsType) => (
-                  <SwiperSlide
-                    onClick={() => {
-                      navigate(`/new-cars/${data?._id}`);
-                    }}
-                    key={data?._id}
-                    className="card-item">
-                    <div className="car-image">
-                      <img src={`${base}${data?.carImage}`} alt={`${data?._id}`} title={data?.title} />
-                    </div>
-                    <div className="description-card">
-                      <h1>{data?.title}</h1>
-                      <div className="bottom">
-                        <div className="vin-and-year">
-                          <span>{data?.year}</span>
-                          <span>{data?.vin}</span>
-                        </div>
-                        <section className="in-stock">
-                        <span className="title-stock">{innerCarData?.inStock || ""}</span>
-                        </section>
+                {KaiyiCarsData &&
+                  KaiyiCarsData?.map((data: CarsType) => (
+                    <SwiperSlide
+                      onClick={() => {
+                        navigate(`/new-cars/${data?._id}`);
+                      }}
+                      key={data?._id}
+                      className="card-item">
+                      <div className="car-image">
+                        <img src={`${base}${data?.carImage}`} alt={`${data?._id}`} title={data?.title} />
                       </div>
-                    </div>
-                    <div className="price-and-autogerm">
-                      <div className="price">
-                        <span>{data?.price}</span>
-                        <img
-                          src="/infoimg.svg"
-                          alt="info"
-                          onMouseEnter={() => handleInfoModal(data?._id)}
-                          onMouseLeave={() => setInfoModal(null)}
-                        />
-                      </div>
-                      <div className="bottom-title">
-                        <img src="/cursor.svg" alt="cursor" title={data?.companyTitle} />
-                        <strong>{data?.companyTitle}</strong>
-                        <div
-                          className={`modal-information ${infoModal === data?._id && data?.miniDesc ? "active" : ""}`}>
-                          <p>{data?.miniDesc}</p>
+                      <div className="description-card">
+                        <h1>{data?.title}</h1>
+                        <div className="bottom">
+                          <div className="vin-and-year">
+                            <span>{data?.year}</span>
+                            <span>{data?.vin}</span>
+                          </div>
+                          <section className="in-stock">
+                            <span className="title-stock">{innerCarData?.inStock || ""}</span>
+                          </section>
                         </div>
                       </div>
-                    </div>
-                  </SwiperSlide>
-                ))}
+                      <div className="price-and-autogerm">
+                        <div className="price">
+                          <span>{data?.price}</span>
+                          <img
+                            src="/infoimg.svg"
+                            alt="info"
+                            onMouseEnter={() => handleInfoModal(data?._id)}
+                            onMouseLeave={() => setInfoModal(null)}
+                          />
+                        </div>
+                        <div className="bottom-title">
+                          <img src="/cursor.svg" alt="cursor" title={data?.companyTitle} />
+                          <strong>{data?.companyTitle}</strong>
+                          <div
+                            className={`modal-information ${
+                              infoModal === data?._id && data?.miniDesc ? "active" : ""
+                            }`}>
+                            <p>{data?.miniDesc}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
               </Swiper>
             </div>
 

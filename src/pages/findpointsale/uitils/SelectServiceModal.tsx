@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Select from "react-select";
 import { useRequests } from "../../../hooks/useRequests";
 import { Cities } from "../../../types/ApiTypes";
+import { useTranslates } from "../../../hooks/useTranslates";
 
 const Styles = {
   control: (baseStyle: any, state: any) => ({
@@ -30,7 +31,6 @@ const Styles = {
   }),
 };
 
-
 const optionsDealerCenter = [
   { value: "a", label: "City" },
   { value: "a2", label: "City2" },
@@ -46,6 +46,8 @@ const optionsAutomobile = [
 const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAction<boolean>> }> = ({
   setServiceModal,
 }) => {
+  const { translations } = useTranslates();
+
   const [selectedService, setSelectedService] = React.useState<any>(null);
   const [selectedCity, setSelectedCity] = React.useState<any>(null);
   const [selectedDealer, setSelectedDealer] = React.useState<any>(null);
@@ -84,25 +86,27 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
       }))
     );
 
-  const optionsCity = hasDealerData && FindDealerData?.map((data: Cities) => ({
-    value: data?._id,
-    label: data?.cityName,
-  }));
+  const optionsCity =
+    hasDealerData &&
+    FindDealerData?.map((data: Cities) => ({
+      value: data?._id,
+      label: data?.cityName,
+    }));
 
   return (
     <div ref={serviceModalRef} className="select-service-modal-inner">
       <IoIosCloseCircleOutline className="close-modal" onClick={() => setServiceModal(false)} />
       <section className="top-titles">
-        <h2>Bir servis seçin</h2>
-        <p>Bir sorğu buraxın və diler sizinlə əlaqə saxlasın</p>
+        <h2>{translations['bir_servis_secin']}</h2>
+        <p>{translations['select_service_title']}</p>
       </section>
 
       <form action="" acceptCharset="UTF-8" className="service-form">
         {/* select service */}
         <div className="field">
-          <label>Service</label>
+          <label>{translations['service_title']}</label>
           <Select
-            placeholder="Servis seç*"
+            placeholder={`${translations['servis_sec_placeholder']}`}
             styles={Styles}
             defaultValue={selectedService}
             onChange={setSelectedService}
@@ -111,9 +115,9 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
         </div>
         {/* select city */}
         <div className="field">
-          <label>City</label>
+          <label>{translations['city_title']}</label>
           <Select
-            placeholder="Şəhər seç*"
+            placeholder={`${translations['seher_sec_placeholder']}`}
             styles={Styles}
             defaultValue={selectedCity}
             onChange={setSelectedCity}
@@ -123,9 +127,9 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
 
         {/* select dealer center */}
         <div className="field">
-          <label>Diler mərkəzi</label>
+          <label>{translations['diler_merkezi_sec_placeholder']}</label>
           <Select
-            placeholder="Diler mərkəzi seç*"
+            placeholder={`${translations['diler_merkezi_sec_placeholder']}`}
             styles={Styles}
             defaultValue={selectedDealer}
             onChange={setSelectedDealer}
@@ -135,7 +139,7 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
 
         {/* select automobile */}
         <div className="field">
-          <label>Avtomobil</label>
+          <label>{translations['avtomobil_title']}</label>
           <Select
             placeholder="Model*"
             styles={Styles}
@@ -147,12 +151,12 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
 
         {/* name surname */}
         <div className="field">
-          <label>Ad və soyad</label>
+          <label>{translations['ad_soyad_placeholder']}</label>
           <input
             className="nameinput"
             type="text"
             onChange={(e: ChangeEvent<HTMLInputElement>) => setNameSurname(e.target.value)}
-            placeholder="Ad & Soyad*"
+            placeholder={`${translations['ad_soyad_placeholder']}`}
             name="name_surname"
             id="name_surname"
           />
@@ -160,17 +164,17 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
 
         {/* telephone */}
         <div className="field">
-          <label>Telefon</label>
-          <PhoneInput placeholder="Telefon*" country={"az"} onlyCountries={["az", "tr", "us", "de", "ru", "uz"]} />
+          <label>{translations['telephone_placeholder']}</label>
+          <PhoneInput placeholder={`${translations['telephone_placeholder']}`} country={"az"} onlyCountries={["az", "tr", "us", "de", "ru", "uz"]} />
         </div>
         {/* email */}
         <div className="field">
-          <label>Email</label>
+          <label>{translations['email_placeholder']}</label>
           <input
             className="emailinput"
             type="email"
             onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-            placeholder="Email*"
+            placeholder={`${translations['email_placeholder']}`}
             name="email"
             id="email"
           />
@@ -178,10 +182,10 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
 
         <div className="rules">
           <input type="checkbox" />
-          <Link to="">Şəxsi məlumatların emalı ilə razıyam</Link>
+          <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
         </div>
 
-        <button type="submit">İstək göndər</button>
+        <button type="submit">{translations["gonder_button	"]}</button>
       </form>
     </div>
   );

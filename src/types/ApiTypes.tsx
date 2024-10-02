@@ -61,6 +61,14 @@ export type ModelsType = {
   status: string;
 };
 
+// Tab - Model pdf
+export type ModelPdf = {
+  _id: string;
+  pdf: string;
+  selected_model: string;
+  status: string;
+}
+
 // Tab - News type
 export type NewsType = {
   _id: string;
@@ -203,6 +211,15 @@ export type RepairHero = {
   status: string;
 };
 
+export type RepairRulesDownloadData = {
+  _id: string;
+  title: string;
+  pdfs: string;
+  image: string;
+  status: string;
+};
+
+
 //EY KAIYI
 export type KaiyiHistoryHero = {
   _id: string;
@@ -266,6 +283,15 @@ export type CarsType = {
   price: string;
   vin: string;
   carImage: string;
+  color: string;
   selected_model: string;
   status: string;
 };
+
+//Social media
+export type Socials = {
+  _id: string;
+  title: string;
+  link: string;
+  icon: string;
+}

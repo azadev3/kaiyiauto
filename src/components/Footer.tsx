@@ -1,108 +1,103 @@
 import React from "react";
 import "../styles/footer.scss";
-import { SocialsInterface } from "../types/SocialTypes";
 import { Link } from "react-router-dom";
 import { FooterDropdownType, FooterTypes } from "../types/FooterTypes";
 import { v4 as uuidv4 } from "uuid";
-
-export const SocialData: SocialsInterface[] = [
-  {
-    id: 1,
-    title: "Telegram",
-    icon: "/tg.svg",
-    link: "",
-  },
-  {
-    id: 2,
-    title: "Telegram",
-    icon: "/tg.svg",
-    link: "",
-  },
-  {
-    id: 3,
-    title: "Telegram",
-    icon: "/tg.svg",
-    link: "",
-  },
-];
-
-export const FooterData: FooterTypes[] = [
-  {
-    id: uuidv4(),
-    mainTitle: "Modellər",
-    dropdown: [
-      { id: uuidv4(), title: "Model 1" },
-      { id: uuidv4(), title: "Model 2" },
-      { id: uuidv4(), title: "Model 3" },
-      { id: uuidv4(), title: "Model 4" },
-      { id: uuidv4(), title: "Model 5" },
-    ],
-  },
-  {
-    id: uuidv4(),
-    mainTitle: "Alıcılar üçün",
-    dropdown: [
-      { id: uuidv4(), title: "Test sürüşü üşün qeydiyyatdan keç" },
-      { id: uuidv4(), title: "Korporativ müştərilər üçün" },
-      // { id: uuidv4(), title: "Xüsusi təkliflər" },
-      { id: uuidv4(), title: "Maşın siğortası" },
-      { id: uuidv4(), title: "Lending" },
-    ],
-  },
-  {
-    id: uuidv4(),
-    mainTitle: "Sahiblər üçün",
-    dropdown: [
-      { id: uuidv4(), title: "Qarantiya xidməti" },
-      { id: uuidv4(), title: "Baxım qaydaları" },
-      { id: uuidv4(), title: "Yolkənarı yardım" },
-    ],
-  },
-  {
-    id: uuidv4(),
-    mainTitle: "Lorem Haqqında",
-    dropdown: [
-      { id: uuidv4(), title: "Brand Lorem" },
-      { id: uuidv4(), title: "Blog" },
-      { id: uuidv4(), title: "Əlaqə" },
-    ],
-  },
-  {
-    id: uuidv4(),
-    mainTitle: "Diler tap",
-  },
-  {
-    id: uuidv4(),
-    mainTitle: "Stokdakı maşınlar",
-  },
-  // {
-  //   id: uuidv4(),
-  //   mainTitle: "Diler ol",
-  // },
-];
+import { base, useRequests } from "../hooks/useRequests";
+import { ModelsType, Socials } from "../types/ApiTypes";
+import { useTranslates } from "../hooks/useTranslates";
 
 const Footer: React.FC = () => {
+  const { translations } = useTranslates();
+
+  const { ModelsData } = useRequests();
+
+  const hasModels = ModelsData && ModelsData?.length > 0;
+
+  const FooterData: FooterTypes[] = [
+    {
+      id: uuidv4(),
+      mainTitle: `${translations['modeller_title']}`,
+      dropdown: hasModels
+        ? ModelsData?.map((data: ModelsType) => ({
+            id: data?._id,
+            title: data?.title,
+            to: `/${data?._id}`,
+          }))
+        : [],
+    },
+    {
+      id: uuidv4(),
+      mainTitle: `${translations["alicilar_ucun"]}`,
+      dropdown: [
+        { id: uuidv4(), title: `${translations["test_surusu_ucun_qeydiyyatdan_kec"]}`, to: "/test-drive" },
+        { id: uuidv4(), title: `${translations["korporativ_musteriler_ucun"]}`, to: "/corporate-customer" },
+      ],
+    },
+    {
+      id: uuidv4(),
+      mainTitle: `${translations["sahiblerine"]}`,
+      dropdown: [
+        { id: uuidv4(), title: `${translations["kaiyi_garantiya_xidmeti"]}`, to: "/guarantee" },
+        { id: uuidv4(), title: `${translations["temir_ve_baxim"]}`, to: "/repair-rules" },
+        { id: uuidv4(), title: `${translations["yol_qaydalari"]}`, to: "/road-rules" },
+      ],
+    },
+    {
+      id: uuidv4(),
+      mainTitle: "EY KAIYI",
+      dropdown: [
+        { id: uuidv4(), title: `${translations["marka_kaiyi"]}`, to: "/brend-kaiyi" },
+        { id: uuidv4(), title: `${translations["blog"]}`, to: "/blogs" },
+        { id: uuidv4(), title: `${translations["yenilikler"]}`, to: "/news" },
+        { id: uuidv4(), title: `${translations["elaqe"]}`, to: "/contact" },
+      ],
+    },
+    // {
+    //   id: uuidv4(),
+    //   mainTitle: "Diler tap",
+    //   to: "/become-dealer",
+    // },
+    {
+      id: uuidv4(),
+      mainTitle: `${translations["stokdaki_masinlar"]}`,
+    },
+    // {
+    //   id: uuidv4(),
+    //   mainTitle: "Diler ol",
+    // },
+  ];
+
+  const { SocialsData } = useRequests();
+
+  const hasSocials = SocialsData && SocialsData?.length > 0;
+
   return (
     <footer className="footer-wrapper">
       <div className="footer">
         <section className="icons">
-          {SocialData?.map((items: SocialsInterface) => (
-            <Link to={items.link || ""} key={items?.id} className="item-social">
-              <img src={items?.icon} alt={`${items?.id}-icon`} title={items?.title} />
-            </Link>
-          ))}
+          {hasSocials &&
+            SocialsData?.map((items: Socials) => (
+              <Link target="_blank" to={items.link || ""} key={items?._id} className="item-social">
+                <img src={`${base}${items?.icon}` || ""} alt={`${items?._id}-icon`} title={items?.title} />
+              </Link>
+            ))}
         </section>
 
         <section className="navbars">
-          {FooterData?.map((items: FooterTypes) => (
+          {FooterData?.map((items: FooterTypes, i: number) => (
             <div className="navbar-item" key={items?.id}>
-              <Link to="" className="main-title">
-                {items?.mainTitle}
-              </Link>
+              {i === 4 ? (
+                <Link to={"/new-cars"} className="main-title">
+                  {items?.mainTitle}
+                </Link>
+              ) : (
+                <div className="main-title">{items?.mainTitle}</div>
+              )}
               <div className="dropdown">
                 {items?.dropdown &&
                   items?.dropdown?.map((dropdown: FooterDropdownType) => (
-                    <Link to="" key={dropdown?.id} className="link-dropdown">
+                    <Link to={dropdown?.to || ""} key={dropdown?.id} className="link-dropdown">
                       {dropdown?.title}
                     </Link>
                   ))}
@@ -113,21 +108,12 @@ const Footer: React.FC = () => {
 
         <section className="privacy-policy">
           <p>
-            Privacy PolicyThe images of cars presented on the site may differ from the cars available at dealerships.
-            The display of colors on the screens of various devices may differ from the color of the real car. Some
-            options and colors of the car in the images may not be available at dealerships.All information on the site
-            regarding cars is for informational purposes only and is not a public offer. Actual specifications are
-            subject to change at any time. All prices indicated on the site are not final and are set by dealerships
-            individually.KAI RUS LLC does not guarantee the timeliness, accuracy and completeness of the information on
-            the site, as well as unhindered access to the site at any time. Published information can be changed at any
-            time without prior notice.Information on the relevant models and configurations and their availability,
-            prices, possible benefits and terms of purchase is available from official KAIYI dealers. The product is
-            certified.For the media - marketing@kaiyi-auto.ruHotline: 8 800 600 81 47
+            {translations['footer_description']}
           </p>
         </section>
 
         <article className="bottom-title">
-          <span>© 2024, all rights reserved</span>
+          <span>{translations['all_rights_reserved']}</span>
         </article>
       </div>
     </footer>

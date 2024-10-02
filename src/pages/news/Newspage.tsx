@@ -2,11 +2,13 @@ import React from "react";
 import { FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { base, useRequests } from "../../hooks/useRequests";
-import { useRecoilValue } from "recoil";
-import { SelectedLanguageState } from "../../recoil/Atom";
 import { KaiyiHistoryNews } from "../../types/ApiTypes";
+import { useTranslates } from "../../hooks/useTranslates";
 
 const Newspage: React.FC = () => {
+
+  const { translations } = useTranslates();
+  
   const { KaiyiHistoryNews } = useRequests();
 
   const hasKaiyiNews = KaiyiHistoryNews && KaiyiHistoryNews?.length > 0;
@@ -32,8 +34,6 @@ const Newspage: React.FC = () => {
     return () => resetVideoSpeed();
   }, [hoverCover]);
 
-  const selectedLang = useRecoilValue(SelectedLanguageState);
-
   return (
     <main className="news-wrapper">
       <div className="news-page">
@@ -43,7 +43,7 @@ const Newspage: React.FC = () => {
           {hasKaiyiNews &&
             KaiyiHistoryNews?.map((data: KaiyiHistoryNews) => (
               <Link
-                to={`/${selectedLang}/news/${data?.slug}`}
+                to={`/news/${data?._id}`}
                 className="news-item"
                 key={data?._id}
                 onMouseEnter={() => setHoverCover(data?._id)}
@@ -72,7 +72,7 @@ const Newspage: React.FC = () => {
                   <p>{data?.slogan}</p>
                   <div className="button">
                     <Link to={`/news/${data?.slug}`} className="read-more">
-                      <span>read more</span>
+                      <span>{translations['read_more_button']}</span>
                       <FaAngleRight className="right" />
                     </Link>
                   </div>

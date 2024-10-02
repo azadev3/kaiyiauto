@@ -1,71 +1,74 @@
 import React from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { useFilterDropdown } from "../../../../hooks/useFilterDropdownHook";
+import { useRequests } from "../../../../hooks/useRequests";
+import { CarsType } from "../../../../types/ApiTypes";
+import { atom, useRecoilState } from "recoil";
+import { useTranslates } from "../../../../hooks/useTranslates";
 
-type Colors = {
-  id: number;
-  code: string;
-};
+export const carColorsData = atom<CarsType[] | null>({
+  key: "carcolorsDataKey",
+  default: null,
+});
 
-const ColorsData: Colors[] = [
-  {
-    id: 1,
-    code: "#FF4759",
-  },
-  {
-    id: 2,
-    code: "##F3F3F3",
-  },
-  {
-    id: 3,
-    code: "#000000",
-  },
-  {
-    id: 4,
-    code: "#1D60F0",
-  },
-  {
-    id: 5,
-    code: "#91FF47",
-  },
-  {
-    id: 6,
-    code: "#FFCE47",
-  },
-  {
-    id: 7,
-    code: "#A6A6A6",
-  },
-];
+export const selectedColorState = atom<string | null>({
+  key: "slcColorStateKey",
+  default: null,
+});
 
 const BodyColorFilter: React.FC = () => {
+  
+  const { translations } = useTranslates(); 
+
+  const { KaiyiCarsData } = useRequests();
+  const hasKaiyiCars = KaiyiCarsData && KaiyiCarsData?.length > 0;
+
+  const extractCarColors =
+    hasKaiyiCars &&
+    KaiyiCarsData?.map((cars: CarsType) => ({
+      id: cars?._id,
+      code: cars?.color,
+    }));
+
   const { dropdown, handleDropdown } = useFilterDropdown();
 
-  const [selectedColor, setSelectedColor] = React.useState<{ [key: number]: boolean }>({});
+  const [selectedColor, setSelectedColor] = useRecoilState(selectedColorState);
 
-  const handleSelectColor = (id: number) => {
-    setSelectedColor((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+  const handleSelectColor = (id: string) => {
+    setSelectedColor((prev) => (prev === id ? null : id));
   };
+
+  const [_, setCarForColors] = useRecoilState(carColorsData);
+  React.useEffect(() => {
+    if (selectedColor) {
+      const renderedCarsForColor =
+        hasKaiyiCars &&
+        KaiyiCarsData?.filter((cars: CarsType) => {
+          return selectedColor === cars?._id;
+        });
+
+      setCarForColors(renderedCarsForColor ? renderedCarsForColor : []);
+    }
+  }, [selectedColor, KaiyiCarsData]);
 
   return (
     <div className="filter-header">
       <div className="head-link" onClick={() => handleDropdown("models")}>
-        <span>Body color</span>
+        <span>{translations['body_color']}</span>
         <FaAngleDown className={`down-icon ${dropdown === "models" ? "active" : ""}`} />
       </div>
       <div className={`component-for-filter ${dropdown === "models" ? "active" : ""}`}>
         <div className={`items-filter ${dropdown === "models" ? "active" : ""}`}>
           <div className="colors">
-            {ColorsData?.map((colors: Colors) => (
-              <span
-                className={`color-item ${selectedColor[colors?.id] ? "active" : ""}`}
-                onClick={() => handleSelectColor(colors?.id)}
-                style={{ backgroundColor: colors?.code }}
-                key={colors?.id}></span>
-            ))}
+            {extractCarColors
+              ? extractCarColors?.map((colors: any) => (
+                  <span
+                    className={`color-item ${selectedColor === colors?.id ? "active" : ""}`}
+                    onClick={() => handleSelectColor(colors?.id)}
+                    style={{ backgroundColor: colors?.code }}
+                    key={colors?.id}></span>
+                ))
+              : ""}
           </div>
         </div>
       </div>

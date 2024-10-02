@@ -9,6 +9,7 @@ import { LoadingState } from "../../recoil/Atom";
 import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { useTranslates } from "../../hooks/useTranslates";
 
 const Styles = {
   control: (baseStyle: any, state: any) => ({
@@ -33,6 +34,8 @@ const Styles = {
 };
 
 const TestDrivePage: React.FC = () => {
+  const { translations } = useTranslates();
+
   const { TestDriveData, ModelsData, FindDealerData } = useRequests();
 
   const [loading, setLoading] = useRecoilState(LoadingState);
@@ -91,7 +94,7 @@ const TestDrivePage: React.FC = () => {
 
         <div className="form-wrapper">
           <form acceptCharset="UTF-8" onSubmit={handleSubmitForm}>
-            <h2>kaiyi test sürüşü üçün qeydiyyat</h2>
+            <h2>{translations['kaiyi_test_surusu_ucun_qeydiyyat_title']}</h2>
             <div className="input-area">
               {/* select model */}
               <div className="field">
@@ -115,7 +118,7 @@ const TestDrivePage: React.FC = () => {
                 <Select
                   value={selectedCity}
                   required
-                  placeholder="City*"
+                  placeholder={`${translations['city_title']}*`}
                   styles={Styles}
                   defaultValue={selectedCity}
                   onChange={setSelectedCity}
@@ -133,7 +136,7 @@ const TestDrivePage: React.FC = () => {
                   name="name"
                   value={name}
                   required
-                  placeholder="Ad*"
+                  placeholder={`${translations['ad_placeholder']}`}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                 />
               </div>
@@ -143,19 +146,19 @@ const TestDrivePage: React.FC = () => {
                 <PhoneInput
                   value={telephone}
                   onChange={(value: string) => setTelephone(value)}
-                  placeholder="Telefon*"
+                  placeholder={`${translations['telephone_placeholder']}`}
                   country={"az"}
                   onlyCountries={["az", "tr", "us", "de", "ru", "uz"]}
                 />
               </div>
               <div className="rule">
                 <input type="checkbox" required />
-                <Link to="">Şəxsi məlumatların emalı ilə razıyam</Link>
+                <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
               </div>
 
               <div className="button-for-submit">
                 <button type="submit" disabled={loading} className="submit-dealer">
-                  {loading ? "Göndərilir..." : "Göndər"}
+                  {loading ? `${translations["gonderilir_title"]}` : `${translations["gonder_button"]}`}
                 </button>
               </div>
             </div>

@@ -39,7 +39,7 @@ const TopHeader: React.FC = () => {
               />
               <div className="descript">
                 <span className="title">{TopHeaderTelephone[0]?.title}</span>
-                {TopHeaderTelephone[0]?.telephone && <span className="value">{TopHeaderTelephone[0]?.telephone}</span>}
+                {TopHeaderTelephone[0]?.telephone && <a style={{ textDecoration: "none" }} href={`tel:${TopHeaderTelephone[0]?.title}`} className="value">{TopHeaderTelephone[0]?.telephone}</a>}
               </div>
             </article>
           )}

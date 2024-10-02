@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { base, useRequests } from "../../../../hooks/useRequests";
-import { ModelsType } from "../../../../types/ApiTypes";
+import { ModelPdf, ModelsType } from "../../../../types/ApiTypes";
 import VideoTab from "./ModelsInnerTabs/VideoTab";
 import DesignTab from "./ModelsInnerTabs/DesignTab";
 import InterierTab from "./ModelsInnerTabs/InterierTab";
@@ -14,6 +14,25 @@ import "swiper/css/navigation";
 
 //Tab navigator for models inner
 const TabNavigatorForModelsInner: React.FC = () => {
+  const { slugmodel } = useParams();
+
+  //get pdf on the model inner
+  const { ModelPdfData, ModelsData } = useRequests();
+
+  const hasPdf = ModelPdfData && ModelPdfData?.length > 0;
+  const hasModels = ModelsData && ModelsData?.length > 0;
+
+  // Find the selected model ID from URL
+  const selectedID = hasModels && ModelsData?.find((model: ModelsType) => model?._id === slugmodel)?.["_id"];
+
+  // Get all items that match the selected model
+  const findedPdf =
+    hasPdf &&
+    ModelPdfData?.find((item: ModelPdf) => {
+      return item.selected_model === selectedID;
+    })?.pdf;
+
+  //mobile navigator
   const [mobileNavigator, setMobileNavigator] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -78,6 +97,27 @@ const TabNavigatorForModelsInner: React.FC = () => {
     sections.current[index]?.scrollIntoView({ behavior: "smooth" });
   };
 
+  //Download pdf
+  const handleDownload = () => {
+    if (findedPdf) {
+      const link = document.createElement("a");
+
+      link.href = findedPdf;
+
+      const fileExt = findedPdf?.split(".").pop();
+
+      link.download = `istifadeci_telimatlari.${fileExt}`;
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      document.body.removeChild(link);
+    } else {
+      console.error("File not found.");
+    }
+  };
+
   return (
     <React.Fragment>
       <section className="tab-navigator-wrapper">
@@ -122,7 +162,9 @@ const TabNavigatorForModelsInner: React.FC = () => {
                 </button>
               ))}
             </nav>
-            <button className="user-in">İstifadəçi təlimatları</button>
+            <button className="user-in" onClick={handleDownload}>
+              İstifadəçi təlimatları
+            </button>
           </div>
         )}
       </section>

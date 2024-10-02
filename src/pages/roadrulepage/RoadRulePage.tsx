@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { base, useRequests } from "../../hooks/useRequests";
 import { TrafficRulesBottom, TrafficRulesCall, TrafficRulesHelped, TrafficRulesHero } from "../../types/ApiTypes";
 import DOMPurify from "dompurify";
@@ -15,6 +15,8 @@ const RoadRulePage: React.FC = () => {
   const hasTrafficHelped = TrafficRulesHelpedData && TrafficRulesHelpedData?.length > 0;
 
   const hasTrafficBottomData = TrafficRulesBottomData && TrafficRulesBottomData?.length > 0;
+
+  const navigate = useNavigate();
 
   return (
     <main className="roadrule-wrapper">
@@ -41,10 +43,12 @@ const RoadRulePage: React.FC = () => {
               </section>
               <section className="right">
                 <p className="mini-description">{data?.miniTitle}</p>
-                <Link to="" className="tel">
+                <Link to={`tel:${data?.telephone}`} className="tel">
                   {data?.telephone}
                 </Link>
-                <button className="get-call">Zəng vur</button>
+                <Link to={`tel:${data?.telephone}`} className="get-call">
+                  Zəng vur
+                </Link>
               </section>
             </div>
           ))}

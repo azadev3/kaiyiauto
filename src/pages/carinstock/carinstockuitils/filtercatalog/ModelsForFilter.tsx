@@ -7,8 +7,13 @@ import { CarsForSelectedModel, SelectedModelFilterState } from "../CarsCategory"
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 import { SelectedLanguageState } from "../../../../recoil/Atom";
+import { RefreshButtonClickedState } from "../Filter";
+import { useTranslates } from "../../../../hooks/useTranslates";
 
 const ModelsForFilter: React.FC = () => {
+
+  const { translations } = useTranslates();
+
   const { ModelsData } = useRequests();
   const { dropdown, handleDropdown } = useFilterDropdown();
 
@@ -51,10 +56,19 @@ const ModelsForFilter: React.FC = () => {
     fetchCarsByModel(modelIds);
   };
 
+  //If refreshed button refresh filters
+  const [refreshFilters, setRefreshFilters] = useRecoilState(RefreshButtonClickedState);
+
+  React.useEffect(() => {
+    setCars([]);
+    setRefreshFilters("");
+    setSelectedModel({});
+  }, [refreshFilters]);
+
   return (
     <div className="filter-header">
       <div className="head-link" onClick={() => handleDropdown("models")}>
-        <span>Modellər</span>
+        <span>{translations['modeller_title']}</span>
         <FaAngleDown className={`down-icon ${dropdown === "models" ? "active" : ""}`} />
       </div>
       <div className={`component-for-filter ${dropdown === "models" ? "active" : ""}`}>

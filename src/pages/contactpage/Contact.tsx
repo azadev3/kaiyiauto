@@ -6,8 +6,12 @@ import { KaiyiHistoryContactHero } from "../../types/ApiTypes";
 import moment from "moment";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTranslates } from "../../hooks/useTranslates";
 
 const Contact: React.FC = () => {
+
+  const { translations } = useTranslates();
+
   const { KaiyiHistoryContactHero } = useRequests();
 
   const hasContactHero = KaiyiHistoryContactHero && KaiyiHistoryContactHero?.length > 0;
@@ -61,21 +65,21 @@ const Contact: React.FC = () => {
             </React.Fragment>
           ))}
         <div className="feedback-contain">
-          <h2>feedback</h2>
+          <h2>{translations['feedback_title']}</h2>
           <form acceptCharset="UTF-8" onSubmit={handleSubmitForm}>
             <div className="field-area">
-              <label>Şəxsi məlumatlar</label>
+              <label>{translations['sexsi_melumatlar_title']}</label>
               <input
                 name="name"
                 value={name}
                 required
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                 type="text"
-                placeholder="Ad*"
+                placeholder={`${translations['ad_placeholder']}`}
               />
             </div>
             <div className="field-area">
-              <label>Əlaqə məlumatları</label>
+              <label>{translations['elaqe_melumatlari']}</label>
               <PhoneInput
                 country={"az"}
                 value={telephone}
@@ -86,16 +90,16 @@ const Contact: React.FC = () => {
               <div className="rules">
                 <div className="rule">
                   <input required type="checkbox" />
-                  <Link to="">Şəxsi məlumatların emalı ilə razıyam</Link>
+                  <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
                 </div>
                 <div className="rule">
                   <input type="checkbox" />
-                  <Link to="">Daha çox əlaqə</Link>
+                  <Link to="">{translations['daha_cox_elaqe_title']}</Link>
                 </div>
               </div>
             </div>
             <button type="submit" disabled={loading}>
-              {loading ? "Göndərilir..." : "Göndər"}
+            {loading ? `${translations['gonderilir_title']}` : `${translations['gonder_button']}`}
             </button>
           </form>
         </div>

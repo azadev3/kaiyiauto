@@ -408,6 +408,66 @@
             transform: translateX(0);
           }
         }
+
+        .language-area {
+          width: 100%;
+          position: absolute;
+          bottom: 24px;
+          right: 24px;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          
+        .language-selector {
+          .dropdown {
+            position: relative;
+            width: 75px;
+        
+            .dropdown-control {
+              background-color: #ffffff;
+              border: 1px solid #dfdfdf;
+              border-radius: 6px;
+              padding: 8px 10px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              cursor: pointer;
+            }
+        
+            .dropdown-arrow {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+        
+            .dropdown-options {
+              position: absolute;
+              bottom: 100%;
+              left: 0;
+              width: 100%;
+              background-color: #ffffff;
+              border: 1px solid #dfdfdf;
+              border-radius: 6px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+              z-index: 1000;
+        
+              .dropdown-option {
+                padding: 10px;
+                cursor: pointer;
+                &:hover {
+                  background-color: #f0f0f0;
+                }
+        
+                &.selected {
+                  background-color: #ddd;
+                }
+              }
+            }
+          }
+        }
+        
+        }
       }
       &.active {
         opacity: 1;
@@ -543,7 +603,7 @@
                   color: #ffffff;
                   font-weight: 400;
                   font-size: 20px;
-                  margin-top: 80px;
+                  margin-top: 24px;
                   transition: 350ms ease-in-out;
                   cursor: pointer;
                   text-decoration: none;
@@ -1155,7 +1215,7 @@
         gap: 22px;
         height: 100%;
         h2 {
-          color: #000000;
+          color: #fff;
           font-weight: 500;
           font-size: 42px;
           text-align: start;

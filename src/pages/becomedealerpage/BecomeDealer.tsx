@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslates } from "../../hooks/useTranslates";
 
 type DealerPageTopTitleType = {
   id: number;
@@ -31,6 +32,9 @@ const AnketDescriptionData: AnketDescriptionType[] = [
 ];
 
 const BecomeDealer: React.FC = () => {
+
+  const { translations } = useTranslates(); 
+  
   //copy modal
   const [copyModal, setCopyModal] = React.useState<boolean>(false);
 
@@ -38,6 +42,7 @@ const BecomeDealer: React.FC = () => {
     setCopyModal((prev) => !prev);
   };
 
+ 
   return (
     <main className="become-dealerpage-wrapper">
       <div className="become-dealerpage">
@@ -95,7 +100,7 @@ const BecomeDealer: React.FC = () => {
               </div>
               <div className="rule">
                 <input type="checkbox" />
-                <Link to="">Şəxsi məlumatların emalı ilə razıyam</Link>
+                <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
               </div>
               <button className="send-btn" type="submit">
                 Göndər

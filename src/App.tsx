@@ -5,9 +5,9 @@ import Home from "./pages/home/Home";
 import TopHeader from "./components/TopHeader";
 import "./styles/parts.scss";
 import "./styles/style.scss";
-import Header, { HeaderDropdownState, HeaderItems } from "./components/Header";
+import Header, { HeaderDropdownState } from "./components/Header";
 import { HeaderItemsTypes } from "./types/HeaderTypes";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import Model from "./components/headerdropdowns/Model";
 import Buyers from "./components/headerdropdowns/Buyers";
 import Owner from "./components/headerdropdowns/Owner";
@@ -35,12 +35,92 @@ import ModelsInner from "./pages/home/homeuitils/tabcomponents/ModelsInner";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/responsive.scss";
-import { LoadingState } from "./recoil/Atom";
+import { IoChevronDown } from "react-icons/io5";
+import { useTranslates } from "./hooks/useTranslates";
 import Loader from "./ui/Loader";
 
 const App: React.FC = () => {
+  const { translations, isLoading } = useTranslates();
+
+  const HeaderItems: HeaderItemsTypes[] = [
+    {
+      id: 1,
+      title: `${translations["model_cesidleri"]}`,
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [],
+    },
+    {
+      id: 2,
+      title: `${translations["elde_olan_masinlar"]}`,
+      to: "/new-cars",
+    },
+    {
+      id: 3,
+      title: `${translations["satis_noqtesi_tap"]}`,
+      to: "/find-dealer",
+    },
+    {
+      id: 4,
+      title: `${translations["alicilar_ucun"]}`,
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 55,
+          title: "",
+          children: [
+            { id: 654, title: `${translations["test_surusu_ucun_qeydiyyatdan_kec"]}`, to: "/test-drive" },
+            { id: 656, title: `${translations["korporativ_musteriler_ucun"]}`, to: "/corporate-customer" },
+            // { id: uuid(), title: "Xüsusi təkliflər", to: "/special-offers" },
+            // { id: uuid(), title: "Maşın siğortası", to: "/car-insurance" },
+            // { id: uuid(), title: "Lending" },
+          ],
+        },
+      ],
+    },
+    {
+      id: 5,
+      title: `${translations["sahiblerine"]}`,
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 1233,
+          title: "",
+          children: [
+            { id: 1232, title: `${translations["kaiyi_garantiya_xidmeti"]}`, to: "/guarantee" },
+            { id: 4543, title: `${translations["yol_qaydalari"]}`, to: "/road-rules" },
+            { id: 76867, title: `${translations["temir_ve_baxim"]}`, to: "/repair-rules" },
+          ],
+        },
+      ],
+    },
+    // {
+    //   id: uuid(),
+    //   title: "Diler ol",
+    //   to: "/become-dealer",
+    // },
+    {
+      id: 6,
+      title: "EY KAIYI",
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 994,
+          title: "",
+          children: [
+            { id: 9193, title: `${translations["marka_kaiyi"]}`, to: "/brend-kaiyi" },
+            { id: 9293, title: `${translations["blog"]}`, to: "/blogs" },
+            { id: 9393, title: `${translations["yenilikler"]}`, to: "/news" },
+            { id: 9493, title: `${translations["elaqe"]}`, to: "/contact" },
+          ],
+        },
+      ],
+    },
+  ];
+
   const [dropdown, setDropdown] = useRecoilState(HeaderDropdownState);
-  const isLoading = useRecoilValue(LoadingState);
 
   const dropdownRef = React.useRef<HTMLDivElement | null>(null);
   React.useEffect(() => {
@@ -98,9 +178,9 @@ const App: React.FC = () => {
             <Route path="/become-dealer" element={<BecomeDealer />} />
             <Route path="/brend-kaiyi" element={<BrendKaiyiPage />} />
             <Route path="/news" element={<Newspage />} />
-            <Route path="/:lang/news/:slug" element={<Newsinner />} />
+            <Route path="/news/:id" element={<Newsinner />} />
             <Route path="/blogs" element={<Blogspage />} />
-            <Route path="/:lang/blog/:slug" element={<Blogsinner />} />
+            <Route path="/blog/:id" element={<Blogsinner />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
           <Footer />

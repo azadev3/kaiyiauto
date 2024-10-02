@@ -13,6 +13,7 @@ import { AddDealerData, Cities } from "../../types/ApiTypes";
 import moment from "moment";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useTranslates } from "../../hooks/useTranslates";
 
 const Styles = {
   control: (baseStyle: any, state: any) => ({
@@ -57,6 +58,8 @@ const SortedData: SortedType[] = [
 ];
 
 const FindDealer: React.FC = () => {
+  const { translations } = useTranslates();
+
   const { FindDealerData, AddDealerData } = useRequests();
 
   //if FindDealerData is accepted
@@ -167,9 +170,9 @@ const FindDealer: React.FC = () => {
   //Select service modal
   const [serviceModal, setServiceModal] = React.useState<boolean>(false);
 
-  const handleSelectServiceModal = () => {
-    setServiceModal(true);
-  };
+  // const handleSelectServiceModal = () => {
+  //   setServiceModal(true);
+  // };
 
   //Get contact with Dealer
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -220,7 +223,7 @@ const FindDealer: React.FC = () => {
     <main className="dealer-page-wrapper">
       <div className="dealer-page">
         <article className="top-title">
-          <h1>satış nöqtəsi tap</h1>
+          <h1>{translations['satis_noqtesi_tap']}</h1>
         </article>
 
         <div className="container-for-map">
@@ -236,9 +239,9 @@ const FindDealer: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <button className="select-a-service" onClick={handleSelectServiceModal}>
+              {/* <button className="select-a-service" onClick={handleSelectServiceModal}>
                 servis seç
-              </button>
+              </button> */}
             </section>
           </div>
           <div className="map-body">
@@ -255,7 +258,7 @@ const FindDealer: React.FC = () => {
                     onClick={() => handleCityClick(city)}>
                     <Link target="_blank" to={city?.websiteLink || ""} className="get-a-website">
                       <img src="/earth.svg" alt="earth" title="Website-a get" />
-                      <span>Website-a get</span>
+                      <span>{translations['website_get']}</span>
                     </Link>
                     <section className="city-content-container">
                       <article className="top-information">
@@ -271,7 +274,7 @@ const FindDealer: React.FC = () => {
                         </div>
                       </article>
                       <article className="other-services">
-                        <h4>Digər xidmətlər</h4>
+                        <h4>{translations['diger_xidmetler']}</h4>
                         <div className="service-grid">
                           {hasDataOtherServices &&
                             city?.otherServices?.map((serv: any) => (
@@ -290,7 +293,7 @@ const FindDealer: React.FC = () => {
                       </article>
                       <article className="button">
                         <button className="for-more" onClick={() => setServiceModal(true)}>
-                          <span>Daha çox</span>
+                          <span>{translations['daha_cox_buttons']}</span>
                           <FaAngleRight className="iconright" />
                         </button>
                       </article>
@@ -321,7 +324,7 @@ const FindDealer: React.FC = () => {
                             <div className="info-window-modal">
                               <Link target="_blank" to={city?.websiteLink || ""} className="get-a-website">
                                 <img src="/earth.svg" alt="earth" title="Website-a get" />
-                                <span>Website-a get</span>
+                                <span>{translations['website_get']}</span>
                               </Link>
 
                               <section className="city-content-container">
@@ -338,7 +341,7 @@ const FindDealer: React.FC = () => {
                                   </div>
                                 </article>
                                 <article className="other-services">
-                                  <h4>Digər xidmətlər</h4>
+                                  <h4>{translations['diger_xidmetler']}</h4>
                                   <div className="service-grid">
                                     {hasDataOtherServices &&
                                       city?.otherServices?.map((serv: any) => (
@@ -357,7 +360,7 @@ const FindDealer: React.FC = () => {
                                 </article>
                                 <article className="button">
                                   <button className="for-more" onClick={() => setServiceModal(true)}>
-                                    <span>Daha çox</span>
+                                    <span>{translations['daha_cox_buttons']}</span>
                                     <FaAngleRight className="iconright" />
                                   </button>
                                 </article>
@@ -377,12 +380,12 @@ const FindDealer: React.FC = () => {
 
         <div className="contact-with-dealer">
           <form acceptCharset="UTF-8" className="form-with-dealer" onSubmit={handleSubmitForm}>
-            <h2>dilerlə əlaqə</h2>
+            <h2>{translations['dilerle_elaqe']}</h2>
             <div className="select-inputs">
               {/* select city */}
               <div className="field">
                 <Select
-                  placeholder="Şəhər seç*"
+                  placeholder={`${translations['seher_sec_placeholder']}`}
                   styles={Styles}
                   required
                   name="city"
@@ -395,7 +398,7 @@ const FindDealer: React.FC = () => {
               {/* select dealer center */}
               <div className="field">
                 <Select
-                  placeholder="Diler mərkəzi seç*"
+                  placeholder={`${translations['diler_merkezi_sec_placeholder']}`}
                   styles={Styles}
                   required
                   name="dealerCenter"
@@ -407,7 +410,7 @@ const FindDealer: React.FC = () => {
             </div>
 
             <div className="perconal-data">
-              <h4>Personal data</h4>
+              <h4>{translations['personal_data']}</h4>
               <div className="field">
                 <input
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
@@ -416,7 +419,7 @@ const FindDealer: React.FC = () => {
                   value={name}
                   name="name"
                   className="nameinput"
-                  placeholder="Ad*"
+                  placeholder={`${translations['ad_placeholder']}`}
                 />
               </div>
               <div className="field">
@@ -427,13 +430,13 @@ const FindDealer: React.FC = () => {
                   value={surname}
                   required
                   className="nameinput"
-                  placeholder="Soyad*"
+                  placeholder={`${translations['soyad_placeholder']}`}
                 />
               </div>
             </div>
 
             <div className="info-data">
-              <h4>Əlaqə məlumatları</h4>
+              <h4>{translations['elaqe_melumatlari']}</h4>
               {/* email */}
               <div className="field">
                 <input
@@ -442,7 +445,7 @@ const FindDealer: React.FC = () => {
                   required
                   value={email}
                   onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                  placeholder="Email*"
+                  placeholder={`${translations['email_placeholder']}`}
                   name="email"
                   id="email"
                 />
@@ -452,7 +455,7 @@ const FindDealer: React.FC = () => {
                 <PhoneInput
                   value={telephone}
                   onChange={(value: string) => setTelephone(value)}
-                  placeholder="Telefon*"
+                  placeholder={`${translations['telephone_placeholder']}`}
                   country={"az"}
                   onlyCountries={["az", "tr", "us", "de", "ru", "uz"]}
                 />
@@ -462,17 +465,17 @@ const FindDealer: React.FC = () => {
             <div className="rules-contain">
               <div className="rule">
                 <input type="checkbox" required />
-                <Link to="">Şəxsi məlumatların emalı ilə razıyam</Link>
+                <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
               </div>
               <div className="rule">
                 <input type="checkbox" />
-                <Link to="">Daha çox əlaqə</Link>
+                <Link to="">{translations['daha_cox_elaqe_title']}</Link>
               </div>
             </div>
 
             <div className="button-for-submit">
               <button type="submit" disabled={loading} className="submit-dealer">
-                {loading ? "Göndərilir..." : "Göndər"}
+                {loading ? `${translations["gonderilir_title"]}` : `${translations["gonder_button"]}`}
               </button>
             </div>
           </form>

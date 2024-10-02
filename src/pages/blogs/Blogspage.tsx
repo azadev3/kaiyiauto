@@ -3,10 +3,12 @@ import { FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { base, useRequests } from "../../hooks/useRequests";
 import { KaiyiHistoryBlogs } from "../../types/ApiTypes";
-import { useRecoilValue } from "recoil";
-import { SelectedLanguageState } from "../../recoil/Atom";
+import { useTranslates } from "../../hooks/useTranslates";
 
 const Blogspage: React.FC = () => {
+
+  const { translations } = useTranslates();
+
   const { KaiyiHistoryBlogs } = useRequests();
 
   const hasKaiyiBlogs = KaiyiHistoryBlogs && KaiyiHistoryBlogs?.length > 0;
@@ -32,8 +34,6 @@ const Blogspage: React.FC = () => {
     return () => resetVideoSpeed();
   }, [hoverCover]);
 
-  const selectedLang = useRecoilValue(SelectedLanguageState);
-
   return (
     <main className="blogs-wrapper">
       <div className="blogs-page">
@@ -42,7 +42,8 @@ const Blogspage: React.FC = () => {
         <div className="grid-blogs">
           {hasKaiyiBlogs &&
             KaiyiHistoryBlogs?.map((data: KaiyiHistoryBlogs) => (
-              <Link to={`/${selectedLang}/blog/${data?.slug}`}
+              <Link
+                to={`/blog/${data?._id}`}
                 className="blogs-item"
                 key={data?._id}
                 onMouseEnter={() => setHoverCover(data?._id)}
@@ -53,7 +54,7 @@ const Blogspage: React.FC = () => {
                     <div className={`hidden-video ${hoverCover === data?._id ? "showed" : ""}`}>
                       <video
                         autoPlay={true}
-                        controls={false} 
+                        controls={false}
                         muted={true}
                         loop={true}
                         ref={(el) => (videoRefs.current[data._id] = el)}
@@ -70,10 +71,10 @@ const Blogspage: React.FC = () => {
                   <h1>{data?.title}</h1>
                   <p>{data?.slogan}</p>
                   <div className="button">
-                    <Link to={`/blogs/${data?.slug}`} className="read-more">
-                      <span>read more</span>
+                    <div className="read-more">
+                      <span>{translations['read_more_button']}</span>
                       <FaAngleRight className="right" />
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </Link>

@@ -1,86 +1,46 @@
 import React from "react";
 import { FaChevronRight } from "react-icons/fa";
-import { useRequests } from "../../hooks/useRequests";
-import { RepairHero } from "../../types/ApiTypes";
-
-type Pdfs = {
-  id: number;
-  pdf: string;
-  pdfName: string;
-};
-
-type DownloadRuleType = {
-  id: number;
-  title: string;
-  image: string;
-  pdfs: Pdfs[];
-};
-
-const DownloadRuleData: DownloadRuleType[] = [
-  {
-    id: 1,
-    title: "LOREM 5",
-    image: "/car1.jpg",
-    pdfs: [
-      {
-        id: 1,
-        pdf: "",
-        pdfName: "PETROL, 1.5T, 6MT BACK",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "LOREM 5",
-    image: "/car2.jpg",
-    pdfs: [
-      {
-        id: 11,
-        pdf: "",
-        pdfName: "PETROL, 1.5T, 6MT BACK",
-      },
-      {
-        id: 22,
-        pdf: "",
-        pdfName: "PETROL, 1.5T, 6MT FRONT",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "LOREM 5",
-    image: "/car1.jpg",
-    pdfs: [
-      {
-        id: 111,
-        pdf: "",
-        pdfName: "PETROL, 1.5T, 6MT BACK",
-      },
-      {
-        id: 122,
-        pdf: "",
-        pdfName: "PETROL, 1.5T, 6MT FRONT",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "LOREM 5",
-    image: "/car2.jpg",
-    pdfs: [
-      {
-        id: 3322,
-        pdf: "",
-        pdfName: "PETROL, 1.5T, 6MT FRONT",
-      },
-    ],
-  },
-];
+import { base, useRequests } from "../../hooks/useRequests";
+import { RepairHero, RepairRulesDownloadData } from "../../types/ApiTypes";
+import { useTranslates } from "../../hooks/useTranslates";
 
 const RepairRulesPage: React.FC = () => {
-  const { RepairHeroData } = useRequests();
+  const { translations } = useTranslates();
+
+  const { RepairHeroData, RepairRulesDownloadData } = useRequests();
 
   const hasRepairHero = RepairHeroData && RepairHeroData?.length > 0;
+
+  const hasRepairRules = RepairRulesDownloadData && RepairRulesDownloadData?.length > 0;
+
+  //download pdf if clicked on the data
+  const handleDownload = (_id: string) => {
+    const findedPdf =
+      hasRepairHero &&
+      RepairRulesDownloadData?.find((data: RepairRulesDownloadData) => {
+        return _id === data?._id;
+      })?.pdfs;
+
+    if (findedPdf) {
+      const link = document.createElement("a");
+
+      link.href = findedPdf ? findedPdf : "";
+
+      const fileExt = findedPdf.split(".").pop();
+
+      const fileName = `baxim_qaydalari.${fileExt}`;
+
+      link.download = fileName;
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      document.body.removeChild(link);
+    } else {
+      console.log("File Not found");
+    }
+  };
 
   return (
     <main className="repairrule-wrapper">
@@ -99,23 +59,22 @@ const RepairRulesPage: React.FC = () => {
           ))}
 
         <div className="download-rule-contain">
-          <h2>Baxım qaydalarını yükləyin</h2>
+          <h2>{translations["baxim_qaydalari_title"]}</h2>
           <div className="grid-rule-contain">
-            {DownloadRuleData?.map((data: DownloadRuleType) => (
-              <div key={data?.id} className="itemrule">
-                <div className="img">
-                  <img src={data?.image || ""} alt={`${data?.id}`} title={data?.title} />
-                </div>
-                <article className="contain">
-                  {data?.pdfs?.map((pdfs: Pdfs) => (
-                    <button className="pdf-download-btn" title="Faylı endir" key={pdfs?.id}>
-                      <span>{pdfs?.pdfName}</span>
+            {hasRepairRules &&
+              RepairRulesDownloadData?.map((data: RepairRulesDownloadData) => (
+                <div key={data?._id} className="itemrule" onClick={() => handleDownload(data?._id)}>
+                  <div className="img">
+                    <img src={`${base}${data?.image}` || ""} alt={`${data?._id}`} title={data?.title} />
+                  </div>
+                  <article className="contain">
+                    <button className="pdf-download-btn" title="Faylı endir">
+                      <span>{data?.title}</span>
                       <FaChevronRight className="right-chevron" />
                     </button>
-                  ))}
-                </article>
-              </div>
-            ))}
+                  </article>
+                </div>
+              ))}
           </div>
         </div>
       </div>

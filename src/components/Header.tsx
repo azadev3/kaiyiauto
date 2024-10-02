@@ -5,105 +5,97 @@ import { Link } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
 import { v4 as uuid } from "uuid";
 import MobileHeader from "./MobileHeader";
+import { useTranslates } from "../hooks/useTranslates";
 
 export const HeaderDropdownState = atom<string | null>({
   key: "HeaderDropdownState",
   default: null,
 });
 
-export const HeaderItems: HeaderItemsTypes[] = [
-  {
-    id: uuid(),
-    title: "Model çeşidləri",
-    icon: <IoChevronDown className="downicon" />,
-    subitems: [
-      {
-        id: uuid(),
-        children: [
-          { id: uuid(), title: "LOREM 5", description: "Dynamic Modern Sedan", image: "/car1.jpg" },
-          { id: uuid(), title: "LOREM 6", description: "Dynamic Modern Sedan", image: "/car2.jpg" },
-          { id: uuid(), title: "LOREM 7", description: "Dynamic Modern Sedan", image: "/car1.jpg" },
-          { id: uuid(), title: "LOREM 8", description: "Dynamic Modern Sedan", image: "/car2.jpg" },
-          { id: uuid(), title: "LOREM 9", description: "Dynamic Modern Sedan", image: "/car1.jpg" },
-          { id: uuid(), title: "LOREM 10", description: "Dynamic Modern Sedan", image: "/car2.jpg" },
-        ],
-        title: "Sedan, Crossovers",
-        to: "",
-      },
-    ],
-  },
-  {
-    id: uuid(),
-    title: "əldə olan maşınlar",
-    to: "/new-cars",
-  },
-  {
-    id: uuid(),
-    title: "satış nöqtəsi tap",
-    to: "/find-dealer",
-  },
-  {
-    id: uuid(),
-    title: "alıcılar üçün",
-    to: "",
-    icon: <IoChevronDown className="downicon" />,
-    subitems: [
-      {
-        id: uuid(),
-        title: "",
-        children: [
-          { id: uuid(), title: "Test sürüşü üçün qeydiyyatdan keç", to: "/test-drive" },
-          { id: uuid(), title: "Korporativ müştərilər üçün", to: "/corporate-customer" },
-          // { id: uuid(), title: "Xüsusi təkliflər", to: "/special-offers" },
-          // { id: uuid(), title: "Maşın siğortası", to: "/car-insurance" },
-          // { id: uuid(), title: "Lending" },
-        ],
-      },
-    ],
-  },
-  {
-    id: uuid(),
-    title: "Sahiblərinə",
-    to: "",
-    icon: <IoChevronDown className="downicon" />,
-    subitems: [
-      {
-        id: uuid(),
-        title: "",
-        children: [
-          { id: uuid(), title: "KAIYI Qarantiya Xidməti", to: "/guarantee" },
-          { id: uuid(), title: "Yol qaydaları", to: "/road-rules" },
-          { id: uuid(), title: "Təmir və Baxım", to: "/repair-rules" },
-        ],
-      },
-    ],
-  },
-  // {
-  //   id: uuid(),
-  //   title: "Diler ol",
-  //   to: "/become-dealer",
-  // },
-  {
-    id: uuid(),
-    title: "ey kaıyı",
-    to: "",
-    icon: <IoChevronDown className="downicon" />,
-    subitems: [
-      {
-        id: uuid(),
-        title: "",
-        children: [
-          { id: uuid(), title: "Marka KAIYI", to: "/brend-kaiyi" },
-          { id: uuid(), title: "Blog", to: "/blogs" },
-          { id: uuid(), title: "News", to: "/news" },
-          { id: uuid(), title: "Əlaqə", to: "/contact" },
-        ],
-      },
-    ],
-  },
-];
 
 const Header: React.FC = () => {
+
+  const { translations } = useTranslates(); 
+
+  
+  const HeaderItems: HeaderItemsTypes[] = [
+    {
+      id: 1,
+      title: `${translations['model_cesidleri']}`,
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [],
+    },
+    {
+      id: 2,
+      title: `${translations['elde_olan_masinlar']}`,
+      to: "/new-cars",
+    },
+    {
+      id: 3,
+      title: `${translations['satis_noqtesi_tap']}`,
+      to: "/find-dealer",
+    },
+    {
+      id: 4,
+      title: `${translations['alicilar_ucun']}`,
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 55,
+          title: "",
+          children: [
+            { id: 654, title: `${translations['test_surusu_ucun_qeydiyyatdan_kec']}`, to: "/test-drive" },
+            { id: 656, title: `${translations['korporativ_musteriler_ucun']}`, to: "/corporate-customer" },
+            // { id: uuid(), title: "Xüsusi təkliflər", to: "/special-offers" },
+            // { id: uuid(), title: "Maşın siğortası", to: "/car-insurance" },
+            // { id: uuid(), title: "Lending" },
+          ],
+        },
+      ],
+    },
+    {
+      id: 5,
+      title: `${translations['sahiblerine']}`,
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 1233,
+          title: "",
+          children: [
+            { id: 323333, title: `${translations['kaiyi_garantiya_xidmeti']}`, to: "/guarantee" },
+            { id: 2323223232, title: `${translations['yol_qaydalari']}`, to: "/road-rules" },
+            { id: 11111121112, title: `${translations['temir_ve_baxim']}`, to: "/repair-rules" },
+          ],
+        },
+      ],
+    },
+    // {
+    //   id: uuid(),
+    //   title: "Diler ol",
+    //   to: "/become-dealer",
+    // },
+    {
+      id: 6,
+      title: "EY KAIYI",
+      to: "",
+      icon: <IoChevronDown className="downicon" />,
+      subitems: [
+        {
+          id: 994,
+          title: "",
+          children: [
+            { id: 9193, title: `${translations['marka_kaiyi']}`, to: "/brend-kaiyi" },
+            { id: 9293, title: `${translations['blog']}`, to: "/blogs" },
+            { id: 9393, title: `${translations['yenilikler']}`, to: "/news" },
+            { id: 9493, title: `${translations['elaqe']}`, to: "/contact" },
+          ],
+        },
+      ],
+    },
+  ];
+  
   //OPEN DROPDOWN
   const [dropdown, setDropdown] = useRecoilState(HeaderDropdownState);
 
