@@ -3,7 +3,7 @@ import { HeaderItemsTypes } from "../types/HeaderTypes";
 import { IoChevronDown } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { atom, useRecoilState } from "recoil";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import MobileHeader from "./MobileHeader";
 import { useTranslates } from "../hooks/useTranslates";
 

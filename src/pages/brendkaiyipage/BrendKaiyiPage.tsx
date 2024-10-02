@@ -2,69 +2,6 @@ import React from "react";
 import { base, useRequests } from "../../hooks/useRequests";
 import { KaiyiHistoryBottom, KaiyiHistoryHero } from "../../types/ApiTypes";
 
-type BrendDataType = {
-  id: number;
-  title: string;
-  description: string;
-  year: string;
-  image: string;
-};
-
-const BrendData: BrendDataType[] = [
-  {
-    id: 1,
-    title: "Şərqi Avropada kütləvi istehsalın başlanması.",
-    description:
-      "KAIYI markası Rusiya bazarına çıxdı. Yanvar ayında Kalininqrad vilayətindəki AVTOTOR zavodunda KAIYI E5 sedanının istehsalına başlanılıb. İl ərzində şirkət həmçinin KAIYI X3 və X3 Pro şəhər krossoverlərinin və flaqman KAIYI X7 Kunlun krossoverinin istehsalına başlayıb.",
-    year: "2020",
-    image: "/ss.jpg",
-  },
-  {
-    id: 2,
-    title: "Şərqi Avropada kütləvi istehsalın başlanması.",
-    description:
-      "KAIYI markası Rusiya bazarına çıxdı. Yanvar ayında Kalininqrad vilayətindəki AVTOTOR zavodunda KAIYI E5 sedanının istehsalına başlanılıb. İl ərzində şirkət həmçinin KAIYI X3 və X3 Pro şəhər krossoverlərinin və flaqman KAIYI X7 Kunlun krossoverinin istehsalına başlayıb.",
-    year: "2021",
-    image: "/ss.jpg",
-  },
-
-  {
-    id: 3,
-    title: "Şərqi Avropada kütləvi istehsalın başlanması.",
-    description:
-      "KAIYI markası Rusiya bazarına çıxdı. Yanvar ayında Kalininqrad vilayətindəki AVTOTOR zavodunda KAIYI E5 sedanının istehsalına başlanılıb. İl ərzində şirkət həmçinin KAIYI X3 və X3 Pro şəhər krossoverlərinin və flaqman KAIYI X7 Kunlun krossoverinin istehsalına başlayıb.",
-    year: "2022",
-    image: "/ss.jpg",
-  },
-
-  {
-    id: 4,
-    title: "Şərqi Avropada kütləvi istehsalın başlanması.",
-    description:
-      "KAIYI markası Rusiya bazarına çıxdı. Yanvar ayında Kalininqrad vilayətindəki AVTOTOR zavodunda KAIYI E5 sedanının istehsalına başlanılıb. İl ərzində şirkət həmçinin KAIYI X3 və X3 Pro şəhər krossoverlərinin və flaqman KAIYI X7 Kunlun krossoverinin istehsalına başlayıb.",
-    year: "2023",
-    image: "/ss.jpg",
-  },
-
-  {
-    id: 5,
-    title: "Şərqi Avropada kütləvi istehsalın başlanması.",
-    description:
-      "KAIYI markası Rusiya bazarına çıxdı. Yanvar ayında Kalininqrad vilayətindəki AVTOTOR zavodunda KAIYI E5 sedanının istehsalına başlanılıb. İl ərzində şirkət həmçinin KAIYI X3 və X3 Pro şəhər krossoverlərinin və flaqman KAIYI X7 Kunlun krossoverinin istehsalına başlayıb.",
-    year: "2024",
-    image: "/ss.jpg",
-  },
-
-  {
-    id: 6,
-    title: "Şərqi Avropada kütləvi istehsalın başlanması.",
-    description:
-      "KAIYI markası Rusiya bazarına çıxdı. Yanvar ayında Kalininqrad vilayətindəki AVTOTOR zavodunda KAIYI E5 sedanının istehsalına başlanılıb. İl ərzində şirkət həmçinin KAIYI X3 və X3 Pro şəhər krossoverlərinin və flaqman KAIYI X7 Kunlun krossoverinin istehsalına başlayıb.",
-    year: "2024",
-    image: "/ss.jpg",
-  },
-];
-
 const BrendKaiyiPage: React.FC = () => {
   const { KaiyiHistoryHero, KaiyiHistoryBottom } = useRequests();
 

@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { FaAngleDown } from "react-icons/fa6";
+// import { FaAngleDown } from "react-icons/fa6";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,60 +15,60 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import { useTranslates } from "../../hooks/useTranslates";
 
-interface SpecificationsNav {
-  id: number;
-  navName: string;
-}
+// interface SpecificationsNav {
+//   id: number;
+//   navName: string;
+// }
 
-interface Accordion {
-  id: number;
-  title: string;
-  description: string;
-}
+// interface Accordion {
+//   id: number;
+//   title: string;
+//   description: string;
+// }
 
-const Nav: SpecificationsNav[] = [
-  {
-    id: 1,
-    navName: "standart avadanlıq",
-  },
-  {
-    id: 2,
-    navName: "texniki spesifikasiya",
-  },
-];
+// const Nav: SpecificationsNav[] = [
+//   {
+//     id: 1,
+//     navName: "standart avadanlıq",
+//   },
+//   {
+//     id: 2,
+//     navName: "texniki spesifikasiya",
+//   },
+// ];
 
-const AccordionData: Accordion[] = [
-  {
-    id: 1,
-    description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
-    title: "Optics",
-  },
-  {
-    id: 2,
-    description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
-    title: "Eksteryer",
-  },
-  {
-    id: 3,
-    description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
-    title: "Optics",
-  },
-  {
-    id: 4,
-    description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
-    title: "Eksteryer",
-  },
-  {
-    id: 5,
-    description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
-    title: "Optics",
-  },
-  {
-    id: 6,
-    description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
-    title: "Eksteryer",
-  },
-];
+// const AccordionData: Accordion[] = [
+//   {
+//     id: 1,
+//     description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
+//     title: "Optics",
+//   },
+//   {
+//     id: 2,
+//     description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
+//     title: "Eksteryer",
+//   },
+//   {
+//     id: 3,
+//     description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
+//     title: "Optics",
+//   },
+//   {
+//     id: 4,
+//     description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
+//     title: "Eksteryer",
+//   },
+//   {
+//     id: 5,
+//     description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
+//     title: "Optics",
+//   },
+//   {
+//     id: 6,
+//     description: "Lorem ipsum dolor kcomefkwewo eowfewkofew",
+//     title: "Eksteryer",
+//   },
+// ];
 
 const InnerCar: React.FC = () => {
 
@@ -91,12 +91,12 @@ const InnerCar: React.FC = () => {
     setInfoModal(id);
   };
 
-  //Select navigator technic or spec or more
-  const [selectedNav, setSelectedNav] = React.useState<number>(1);
+  // //Select navigator technic or spec or more
+  // const [selectedNav, setSelectedNav] = React.useState<number>(1);
 
-  const handleNav = (id: number) => {
-    setSelectedNav(id);
-  };
+  // const handleNav = (id: number) => {
+  //   setSelectedNav(id);
+  // };
 
   //CUSTOM SWIPER BUTTONS
   const swiperRef = React.useRef<any>(null);
@@ -105,42 +105,42 @@ const InnerCar: React.FC = () => {
 
   const handleNext = () => swiperRef?.current?.slideNext();
 
-  //Standar spec
-  const StandartSpecificationsNav = () => {
-    // accordion open - close
-    const [accordion, setAccordion] = React.useState<number | null>(null);
+  // //Standar spec
+  // const StandartSpecificationsNav = () => {
+  //   // accordion open - close
+  //   const [accordion, setAccordion] = React.useState<number | null>(null);
 
-    const handleAccordion = (id: number | null) => {
-      setAccordion((prev) => (prev === id ? null : id));
-    };
+  //   const handleAccordion = (id: number | null) => {
+  //     setAccordion((prev) => (prev === id ? null : id));
+  //   };
 
-    return (
-      <div className="standart-nav">
-        {AccordionData?.map((data: Accordion) => (
-          <div className="container-accordion" key={data?.id}>
-            <div className="item-head" onClick={() => handleAccordion(data?.id)}>
-              <h2>{data?.title}</h2>
-              <FaAngleDown className={`chevron-left ${accordion === data?.id ? "rotated" : ""}`} />
-            </div>
-            <div className={`description-accordion ${accordion === data?.id ? "expanded" : ""}`}>
-              <p>{data?.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
+  //   return (
+  //     <div className="standart-nav">
+  //       {AccordionData?.map((data: Accordion) => (
+  //         <div className="container-accordion" key={data?.id}>
+  //           <div className="item-head" onClick={() => handleAccordion(data?.id)}>
+  //             <h2>{data?.title}</h2>
+  //             <FaAngleDown className={`chevron-left ${accordion === data?.id ? "rotated" : ""}`} />
+  //           </div>
+  //           <div className={`description-accordion ${accordion === data?.id ? "expanded" : ""}`}>
+  //             <p>{data?.description}</p>
+  //           </div>
+  //         </div>
+  //       ))}
+  //     </div>
+  //   );
+  // };
 
-  //Technic spec
-  const TechnicSpecificationsNav = () => {
-    return (
-      <div className="technic-nav">
-        <div className="description-technic">
-          <p>Description technic</p>
-        </div>
-      </div>
-    );
-  };
+  // //Technic spec
+  // const TechnicSpecificationsNav = () => {
+  //   return (
+  //     <div className="technic-nav">
+  //       <div className="description-technic">
+  //         <p>Description technic</p>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const navigate = useNavigate();
 

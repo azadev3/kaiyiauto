@@ -7,8 +7,6 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { base, useRequests } from "../../../../hooks/useRequests";
 import { KaiyiHistoryNews } from "../../../../types/ApiTypes";
-import { useRecoilValue } from "recoil";
-import { SelectedLanguageState } from "../../../../recoil/Atom";
 import { useTranslates } from "../../../../hooks/useTranslates";
 
 const News: React.FC = () => {
