@@ -33,9 +33,10 @@ import {
 } from "../types/ApiTypes";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { LoadingState, SelectedLanguageState } from "../recoil/Atom";
-
-export const api = "http://localhost:3000/api";
-export const base = "http://localhost:3000";
+// https://kaiyi-21d4.onrender.com
+// export const api = "http://localhost:3000/api";
+export const api = "https://kaiyi-21d4.onrender.com/api";
+export const base = "https://kaiyi-21d4.onrender.com";
 
 export const useRequests = () => {
   const fetchData = async (url: string, headers = {}) => {

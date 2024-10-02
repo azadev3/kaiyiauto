@@ -3,9 +3,9 @@ import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { SelectedLanguageState } from "../recoil/Atom";
 import { TranslatesType } from "../types/ApiTypes";
-import Loader from "../ui/Loader";
 
-export const api = "http://localhost:3000/api";
+export const api = "https://kaiyi-21d4.onrender.com/api";
+// export const api = "http://localhost:3000/api";
 
 export const useTranslates = () => {
   const selectedLanguage = useRecoilValue(SelectedLanguageState);
@@ -16,7 +16,11 @@ export const useTranslates = () => {
     },
   };
 
-  const { data: translations = {}, error, isLoading } = useQuery<Record<string, string>>({
+  const {
+    data: translations = {},
+    error,
+    isLoading,
+  } = useQuery<Record<string, string>>({
     queryKey: ["translatesKey", selectedLanguage],
     queryFn: async () => {
       try {
@@ -44,6 +48,6 @@ export const useTranslates = () => {
   if (error) {
     console.error("Error fetching translations:", error);
   }
- 
+
   return { translations, isLoading };
 };
