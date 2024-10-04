@@ -116,7 +116,9 @@ const ForCorporateCustomers: React.FC = () => {
               <div className="wrapper">
                 <h1>{data?.title}</h1>
                 {data?.description ? <p className="corporate-description">{data?.description}</p> : ""}
-                <button>{translations['teklif_al']}</button>
+                <button onClick={() => {
+                  window.scrollTo({ top: 1611, behavior: "smooth" })
+                }}>{translations['teklif_al']}</button>
               </div>
             </div>
           ))}

@@ -200,13 +200,19 @@ const ModelDetails: React.FC = () => {
             <p>{findModel?.slogan}</p>
           </article>
         </div>
-        <video
-          autoPlay={true}
-          loop={true}
-          controls={false}
-          muted={true}
-          disablePictureInPicture
-          src={`${base}${findModel?.video}` || ""}></video>
+        {findModel?.video ? (
+          <video
+            autoPlay={true}
+            loop={true}
+            controls={false}
+            muted={true}
+            disablePictureInPicture
+            src={`${base}${findModel?.video}` || ""}></video>
+        ) : findModel?.image ? (
+          <img src={`${base}${findModel?.image}` || ""} alt="" />
+        ) : (
+          <img src={`${base}${findModel?.image}` || ""} alt="" />
+        )}
       </section>
 
       <TabNavigatorForModelsInner />
