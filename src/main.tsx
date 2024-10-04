@@ -3,31 +3,20 @@ import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import ScrollToTop from "./ScrollToTop.tsx";
-import localforage from "localforage";
-import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 
-const ONE_DAY = 1000 * 60 * 60 * 24;
+const ONE_SECOND = 1000;
+const ONE_MINUTE = ONE_SECOND * 60;
+const TEN_MINUTES = ONE_MINUTE * 10;
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: ONE_DAY,
+      staleTime: 1000 * 60 * 10,
       refetchOnWindowFocus: false,
-      gcTime: ONE_DAY, 
+      gcTime: TEN_MINUTES,
     },
   },
-});
-
-const asyncStoragePersister = createAsyncStoragePersister({
-  storage: localforage,
-});
-
-persistQueryClient({
-  queryClient,
-  persister: asyncStoragePersister,
-  maxAge: ONE_DAY, 
 });
 
 createRoot(document.getElementById("root")!).render(
