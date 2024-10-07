@@ -54,7 +54,7 @@ const Hero: React.FC = () => {
                 <div className="description-wrapper">
                   <div className="description">
                     <h1>{items?.title}</h1>
-                    <h2>{items?.title}</h2>
+                    <h2>{items?.description}</h2>
                     <img
                       src={`${base}${items?.miniImage}`}
                       className="mini-logo"
