@@ -48,7 +48,7 @@ const RepairRulesPage: React.FC = () => {
         {hasRepairHero &&
           RepairHeroData?.map((data: RepairHero) => (
             <React.Fragment key={data?._id}>
-              <div className="image-contain" style={{ backgroundImage: "url('/newsimg.jpeg')" }}>
+              <div className="image-contain" style={{ backgroundImage: `url(${base}${data?.image || ""})` }}>
                 <div className="wrapper">
                   <h1>{data?.title}</h1>
                 </div>

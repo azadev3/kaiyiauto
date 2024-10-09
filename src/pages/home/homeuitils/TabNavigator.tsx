@@ -96,7 +96,7 @@ const TabNavigator: React.FC = () => {
                 slidesPerView: 4.5,
               },
               368: {
-                slidesPerView: 2.5,
+                slidesPerView: 3,
               },
             }}
             navigation={true}

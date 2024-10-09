@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { HeaderDropdownState } from "./Header";
 import LanguageSelector from "./LanguageSelector";
@@ -8,6 +8,8 @@ import { base, useRequests } from "../hooks/useRequests";
 const TopHeader: React.FC = () => {
   const { LogoData, TopHeaderLocation, TopHeaderTelephone } = useRequests();
   const [_, setDropdown] = useRecoilState(HeaderDropdownState);
+
+  const navigate = useNavigate();
 
   return (
     <header className="topheader-wrapper">
@@ -25,7 +27,11 @@ const TopHeader: React.FC = () => {
                 title={TopHeaderLocation[0]?.title}
               />
               <div className="descript">
-                <span className="title">{TopHeaderLocation[0]?.title}</span>
+                <span 
+                onClick={() => {
+                  navigate("/guarantee");
+                }}
+                className="title">{TopHeaderLocation[0]?.title}</span>
               </div>
             </article>
           )}
@@ -38,8 +44,7 @@ const TopHeader: React.FC = () => {
                 title={TopHeaderTelephone[0]?.title}
               />
               <div className="descript">
-                <span className="title">{TopHeaderTelephone[0]?.title}</span>
-                {TopHeaderTelephone[0]?.telephone && <a style={{ textDecoration: "none" }} href={`tel:${TopHeaderTelephone[0]?.title}`} className="value">{TopHeaderTelephone[0]?.telephone}</a>}
+                <a href={`tel:${TopHeaderTelephone[0]?.telephone}`} className="title">{TopHeaderTelephone[0]?.title}</a>
               </div>
             </article>
           )}

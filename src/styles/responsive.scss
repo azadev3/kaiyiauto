@@ -1,3 +1,5 @@
+@import "./global.scss";
+
 @media only screen and (max-width: 1300px) {
   .contact-wrapper .contact-page .feedback-contain {
     margin-top: 24px;
@@ -40,6 +42,13 @@
 }
 
 @media only screen and (max-width: 1000px) {
+  .inner-car-page-wrapper {
+    padding: 0px 36px;
+    margin-top: 36px;
+  }
+  .inner-car-page-wrapper .inner-car-page .title h1 {
+    font-size: 34px;
+  }
   .cars-in-stock-page-wrapper {
     padding: 0px 24px;
   }
@@ -615,6 +624,258 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .inner-car-page-wrapper .inner-car-page .container-bottom .top-content .right-card .top .description .vin-and-year {
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    align-items: flex-start;
+    span {
+      font-size: 14px;
+    }
+    
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .top-content .right-card {
+    padding: 24px;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .top-content .right-card .price-and-more-btn button {
+    padding: 8px 24px;
+    font-size: 15px;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .similiar-cars .swiper-buttons {
+    display: none;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .contact-with-manager h2 {
+    font-size: 24px;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .contact-with-manager .form-manage {
+    margin-top: 24px;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .top-content {
+    flex-direction: column;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .top-content .right-card {
+    max-width: unset;
+    width: 100%;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .contact-with-manager {
+    margin-top: 56px;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .similiar-cars h2 {
+    font-size: 24px;
+  }
+  .inner-car-page-wrapper .inner-car-page .container-bottom .similiar-cars .carousel-cars {
+    margin-top: 36px;
+  }
+  
+  .home .hero-wrapper {
+    height: auto !important;
+  }
+
+  .hero-wrapper {
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+    .mobile-hero {
+      width: 100%;
+      height: auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: relative;
+      z-index: 0;
+      .swiper {
+        width: 100%;
+        height: auto;
+
+        .swiper-pagination-bullet {
+          width: 12px;
+          height: 12px;
+          background-color: white;
+          opacity: 1;
+          border-radius: 50%;
+          margin: 0 4px;
+        }
+
+        .swiper-pagination-bullet-active {
+          background-color: black;
+        }
+
+        .swiper-pagination {
+          background-color: #4a4a4a;
+          padding: 10px 15px;
+          border-radius: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: fit-content;
+          height: fit-content;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          left: 46%;
+          top: 0;
+          display: none;
+        }
+
+        .swiper-slide {
+          background: transparent;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          position: relative;
+          flex-direction: column;
+          overflow: hidden;
+          .background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .description-wrapper {
+            width: 100%;
+            height: auto;
+            background-color: transparent;
+            padding: 36px 24px;
+
+            .description {
+              width: 100%;
+              height: auto;
+              max-width: 1440px;
+              margin: 0 auto;
+              display: flex;
+              align-items: flex-start;
+              justify-content: flex-start;
+              flex-direction: column;
+              gap: 0;
+              h1 {
+                color: #000000;
+                font-weight: 500;
+                font-size: 28px;
+                line-height: 38px;
+                text-align: start;
+                @include overflow();
+                -webkit-line-clamp: unset;
+                line-clamp: unset;
+              }
+              h2 {
+                margin-top: 19px;
+                color: #474747;
+                font-weight: 400;
+                font-size: 21px;
+                line-height: normal;
+                text-align: start;
+                @include overflow();
+                -webkit-line-clamp: unset;
+                line-clamp: unset;
+              }
+
+              img {
+                min-width: 65px;
+                width: 65px;
+                height: 65px;
+                object-fit: contain;
+              }
+
+              .for-more-btn {
+                max-width: 312px;
+                width: 100%;
+                height: 56px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 0px 10px;
+                background-color: #000000;
+                color: #ffffff;
+                font-weight: 400;
+                font-size: 20px;
+                margin-top: 24px;
+                transition: 350ms ease-in-out;
+                cursor: pointer;
+                text-decoration: none;
+                text-transform: uppercase;
+                border: 1px solid transparent;
+                &:hover {
+                  background-color: white;
+                  border: 1px solid black;
+                  color: black;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .buttons {
+        display: none;
+      }
+    }
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: black !important;
+  }
+  .swiper-pagination-bullet {
+    top: 54px;
+    position: relative;
+  }
+  .home .tab-content .tab-section .news-component-wrapper {
+    padding: 24px 24px !important;
+    padding-bottom: 108px !important;
+  }
+  .home .subscribe-on-news-wrapper {
+    padding: 30px 12px !important;
+  }
+  .home .tab-content .tab-section .news-component-wrapper .news-component .carousel-news .blog-item .top .description p {
+    line-height: 24px !important;
+    font-size: 14px !important;
+  }
+  .home .tab-content .tab-section .news-component-wrapper .news-component .carousel-news .blog-item {
+    min-height: 380px !important;
+    max-height: 380px !important;
+  }
+  .home .tab-content .tab-section .news-component-wrapper .news-component .carousel-news .blog-item .button-area .read-more-btn:hover span {
+    font-size: 0.7em;
+  }
+  .home .tab-content .tab-section .news-component-wrapper .news-component .carousel-news .swiper {
+    position: initial;
+  }
+  .home .tab-content .tab-section .models-component-wrapper .models-component .models-container {
+    height: auto !important;
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  .home .tab-content .tab-section {
+    height: 100% !important;
+    min-height: unset !important;
+  }
+  .home .tab-content .tab-section section {
+    min-height: unset !important;
+    height: 100% !important;
+  }
+  .home .tab-content .tab-section .news-component-wrapper .news-component .swiper-buttons span:nth-child(1) {
+    display: none;
+  }
+  .home .tab-content .tab-section .news-component-wrapper .news-component .swiper-buttons span:nth-child(2) {
+    display: none;
+  }
+  .home .tab-navigator-wrapper .swiper-button-prev, .home .tab-navigator-wrapper .swiper-button-next {
+    display: none !important;
+  }
+   .home .tab-content .tab-section .design-component, .home .tab-content .tab-section .interier-component, .home .tab-content .tab-section .security-component, .home .tab-content .tab-section .view-component, .home .tab-content .tab-section .comfortable-component {
+    min-height: auto !important;
+    padding-top: 120px;
+    padding-bottom: 0;
+    height: auto !important;
+  }
+  .home .tab-content .tab-section .design-component h2, .home .tab-content .tab-section .interier-component h2, .home .tab-content .tab-section .security-component h2, .home .tab-content .tab-section .view-component h2, .home .tab-content .tab-section .comfortable-component h2 {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    -webkit-line-clamp: 4 !important;
+    line-clamp: 4 !important;
+  } 
+  .home .tab-content .tab-section .design-component h3, .home .tab-content .tab-section .interier-component h3, .home .tab-content .tab-section .security-component h3, .home .tab-content .tab-section .view-component h3, .home .tab-content .tab-section .comfortable-component h3 {
+    font-size: 12px !important; 
+  }
   .cars-in-stock-page-wrapper .cars-in-stock-page .carscategory .swiper .swiper-slide {
     padding: 4px 0px;
   }
@@ -770,6 +1031,9 @@
 }
 
 @media only screen and (max-width: 468px) {
+  .guarante-wrapper .guarante-page .attention-description .descript {
+    margin-top: 250px;
+  }
   .cars-in-stock-page-wrapper .cars-in-stock-page .main-filtered-area .content .cards {
     grid-template-columns: repeat(1, 1fr);
   }

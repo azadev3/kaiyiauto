@@ -192,7 +192,7 @@ const InnerCar: React.FC = () => {
     <div className="inner-car-page-wrapper">
       <div className="inner-car-page">
         <div className="title">
-          <h1>{innerCarData?.title || ""}</h1>
+          <h1>{innerCarData?.miniDesc || ""}</h1>
         </div>
 
         <div className="container-bottom">
@@ -325,6 +325,20 @@ const InnerCar: React.FC = () => {
                   swiperRef.current = swiper;
                 }}
                 slidesPerView={4.4}
+                breakpoints={{
+                  968: {
+                    slidesPerView: 4.4,
+                  },
+                  768: {
+                    slidesPerView: 2.4,
+                  },
+                  568: {
+                    slidesPerView: 1.8,
+                  },
+                  268: {
+                    slidesPerView: 1.4,
+                  },
+                }}
                 spaceBetween={24}
                 navigation={true}
                 modules={[Navigation, Pagination]}

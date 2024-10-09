@@ -2,7 +2,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { base, useRequests } from "../../../../hooks/useRequests";
@@ -48,7 +48,8 @@ const News: React.FC = () => {
             }}
             spaceBetween={24}
             navigation={true}
-            modules={[Navigation]}
+            pagination={window.innerWidth <= 768 ? true : false}
+            modules={[Navigation, Pagination]}
             className="mySwiper">
             {hasNews &&
               KaiyiHistoryNews?.map((items: KaiyiHistoryNews) => (
