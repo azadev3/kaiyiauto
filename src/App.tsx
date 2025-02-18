@@ -14,7 +14,6 @@ import Owner from "./components/headerdropdowns/Owner";
 import Kaiyi from "./components/headerdropdowns/Kaiyi";
 import Footer from "./components/Footer";
 import ScrollDownButton from "./components/ScrollDownButton";
-import CarsInStock from "./pages/carinstock/CarsInStock";
 import InnerCar from "./pages/carinstock/InnerCar";
 import FindDealer from "./pages/findpointsale/FindDealer";
 import TestDrivePage from "./pages/testdrivepage/TestDrivePage";
@@ -38,6 +37,7 @@ import "./styles/responsive.scss";
 import { IoChevronDown } from "react-icons/io5";
 import { useTranslates } from "./hooks/useTranslates";
 import Loader from "./ui/Loader";
+import CarInStockPage from "./pages/carinstockfeature/CarInStockPage";
 
 const App: React.FC = () => {
   const { translations, isLoading } = useTranslates();
@@ -165,7 +165,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/:slugmodel" element={<ModelsInner />} />
-            <Route path="/new-cars" element={<CarsInStock />} />
+            <Route path="/new-cars" element={<CarInStockPage />} />
             <Route path="/new-cars/:carid" element={<InnerCar />} />
             <Route path="/find-dealer" element={<FindDealer />} />
             <Route path="/test-drive" element={<TestDrivePage />} />

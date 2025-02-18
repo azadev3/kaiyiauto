@@ -39,22 +39,28 @@ export const api = "https://kaiyi-21d4.onrender.com/api";
 export const base = "https://kaiyi-21d4.onrender.com";
 
 export const useRequests = () => {
+
+  const selectedLang = useRecoilValue(SelectedLanguageState);
+
   const fetchData = async (url: string, headers = {}) => {
     setLoading(true);
     try {
       const response = await axios.get(url, { headers });
-      if (response.data) {
-        return response.data;
+      if (url === "https://kaiyi-21d4.onrender.com/api/filter-cars") {
+        return response?.data?.data || [];
+      } else {
+        return response?.data || [];
       }
     } catch (error) {
       console.log(error);
+      return [];
     } finally {
       setLoading(false);
     }
   };
 
+
   const [_, setLoading] = useRecoilState(LoadingState);
-  const selectedLang = useRecoilValue(SelectedLanguageState);
 
   const headers = {
     "Accept-Language": selectedLang,
@@ -191,8 +197,8 @@ export const useRequests = () => {
         queryFn: () => fetchData(`${api}/contactherofront`, headers),
       },
       {
-        queryKey: ["kaiyiCarsDataKey", selectedLang],
-        queryFn: () => fetchData(`${api}/add-car-front`, headers),
+        queryKey: ["all_cars_Data_key", selectedLang],
+        queryFn: () => fetchData("https://kaiyi-21d4.onrender.com/api/filter-cars", headers),
       },
       {
         queryKey: ["socialsData", selectedLang],

@@ -1,11 +1,14 @@
-import React, { ChangeEvent, SetStateAction } from "react";
+import React, { ChangeEvent, FormEvent, SetStateAction } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import PhoneInput from "react-phone-input-2";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { useRequests } from "../../../hooks/useRequests";
-import { Cities } from "../../../types/ApiTypes";
+import { api, useRequests } from "../../../hooks/useRequests";
+import { AddDealerData, Cities, ModelsType } from "../../../types/ApiTypes";
 import { useTranslates } from "../../../hooks/useTranslates";
+import moment from "moment";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Styles = {
   control: (baseStyle: any, state: any) => ({
@@ -31,29 +34,18 @@ const Styles = {
   }),
 };
 
-const optionsDealerCenter = [
-  { value: "a", label: "City" },
-  { value: "a2", label: "City2" },
-  { value: "a3", label: "City3" },
-];
-
-const optionsAutomobile = [
-  { value: "a", label: "City" },
-  { value: "a2", label: "City2" },
-  { value: "a3", label: "City3" },
-];
-
 const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAction<boolean>> }> = ({
   setServiceModal,
 }) => {
   const { translations } = useTranslates();
 
-  const [selectedService, setSelectedService] = React.useState<any>(null);
-  const [selectedCity, setSelectedCity] = React.useState<any>(null);
-  const [selectedDealer, setSelectedDealer] = React.useState<any>(null);
-  const [selectedAutomobile, setSelectedAutomobile] = React.useState<any>(null);
-  const [__, setNameSurname] = React.useState<string>("");
-  const [_, setEmail] = React.useState<string>("");
+  const [selectedService, setSelectedService] = React.useState<string>("");
+  const [selectedCity, setSelectedCity] = React.useState<string>("");
+  const [selectedDealer, setSelectedDealer] = React.useState<string>("");
+  const [selectedAutomobile, setSelectedAutomobile] = React.useState<string>("");
+  const [tel, setTel] = React.useState<string>("");
+  const [namesurname, setNameSurname] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>("");
 
   const serviceModalRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -71,27 +63,97 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
   }, []);
 
   //get dynamic Servis names, cities, dilers and more.. options
-  const { FindDealerData } = useRequests();
-
+  const { FindDealerData, AddDealerData, ModelsData } = useRequests();
   //control has data
   const hasDealerData = FindDealerData && FindDealerData?.length > 0;
 
   //get servicesOptions in FindDealerData and manipulate according React Select props
-  const servicesOptions =
-    hasDealerData &&
-    FindDealerData?.map((data: Cities) =>
+  const servicesOptions = hasDealerData
+  ? FindDealerData?.flatMap((data: Cities) =>
       data?.otherServices?.map((serv: any) => ({
-        value: serv?._id,
+        value: serv?.serviceName,
         label: serv?.serviceName,
       }))
-    );
+    )
+  : [];
+
+    console.log(FindDealerData, 'finddeall')
 
   const optionsCity =
     hasDealerData &&
     FindDealerData?.map((data: Cities) => ({
-      value: data?._id,
+      value: data?.cityName,
       label: data?.cityName,
     }));
+
+
+  const optionsDealer =
+    AddDealerData &&
+    AddDealerData?.map((data: AddDealerData) => ({
+      value: data?.dealerName,
+      label: data?.dealerName,
+    }));
+
+  const optionsModel =
+    ModelsData &&
+    ModelsData?.map((data: ModelsType) => ({
+      value: data?.title,
+      label: data?.title,
+    }));
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const submitForm = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const createdAt = moment().format("DD.MM.YYYY");
+    const hours = moment().format("HH:mm");
+
+    try {
+      const data = {
+        serviceName: selectedService,
+        cityName: selectedCity,
+        dealerCenter: selectedDealer,
+        automobile: selectedAutomobile,
+        name: namesurname,
+        telephone: tel,
+        email: email,
+        created_at: createdAt,
+        hours: hours,
+      }
+
+      const res = await axios.post(`${api}/dealer-contacts-service`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (res.data) {
+        toast.success("Əlaqə istəyiniz müvəffəqiyyətlə göndərilmişdir.", {
+          position: "top-center",
+        });
+        setSelectedService("");
+        setSelectedCity("");
+        setSelectedDealer("");
+        setSelectedAutomobile("");
+        setNameSurname("");
+        setTel("");
+        setEmail("");
+      } else {
+        toast.error("Əlaqə istəyiniz göndərilmədi.", {
+          position: "top-center",
+        });
+        console.log(res.status);
+      }
+
+    } catch (error) {
+      toast.error("Əlaqə istəyiniz göndərilmədi. Serverlə əlaqə saxlayın..", {
+        position: "top-center",
+      });
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div ref={serviceModalRef} className="select-service-modal-inner">
@@ -101,26 +163,32 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
         <p>{translations['select_service_title']}</p>
       </section>
 
-      <form action="" acceptCharset="UTF-8" className="service-form">
+      <form onSubmit={submitForm} acceptCharset="UTF-8" className="service-form">
         {/* select service */}
         <div className="field">
           <label>{translations['service_title']}</label>
           <Select
+            name="serviceName"
             placeholder={`${translations['servis_sec_placeholder']}`}
             styles={Styles}
-            defaultValue={selectedService}
-            onChange={setSelectedService}
-            options={servicesOptions ? servicesOptions?.flat() : []}
+            required
+            onChange={(value: any) => {
+              setSelectedService(value.label);
+            }}
+            options={servicesOptions ? servicesOptions : []}
           />
         </div>
         {/* select city */}
         <div className="field">
           <label>{translations['city_title']}</label>
           <Select
+            name="cityName"
             placeholder={`${translations['seher_sec_placeholder']}`}
             styles={Styles}
-            defaultValue={selectedCity}
-            onChange={setSelectedCity}
+            required
+            onChange={(value: any) => {
+              setSelectedCity(value.label);
+            }}
             options={optionsCity ? optionsCity : []}
           />
         </div>
@@ -131,9 +199,12 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
           <Select
             placeholder={`${translations['diler_merkezi_sec_placeholder']}`}
             styles={Styles}
-            defaultValue={selectedDealer}
-            onChange={setSelectedDealer}
-            options={optionsDealerCenter}
+            name="dealerCenter"
+            required
+            onChange={(value: any) => {
+              setSelectedDealer(value.label);
+            }}
+            options={optionsDealer ? optionsDealer : []}
           />
         </div>
 
@@ -143,9 +214,12 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
           <Select
             placeholder="Model*"
             styles={Styles}
-            defaultValue={selectedAutomobile}
-            onChange={setSelectedAutomobile}
-            options={optionsAutomobile}
+            name="automobile"
+            required
+            onChange={(value: any) => {
+              setSelectedAutomobile(value.label);
+            }}
+            options={optionsModel ? optionsModel : []}
           />
         </div>
 
@@ -157,15 +231,19 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
             type="text"
             onChange={(e: ChangeEvent<HTMLInputElement>) => setNameSurname(e.target.value)}
             placeholder={`${translations['ad_soyad_placeholder']}`}
-            name="name_surname"
+            name="name"
             id="name_surname"
+            required
           />
         </div>
 
         {/* telephone */}
         <div className="field">
           <label>{translations['telephone_placeholder']}</label>
-          <PhoneInput placeholder={`${translations['telephone_placeholder']}`} country={"az"} onlyCountries={["az", "tr", "us", "de", "ru", "uz"]} />
+          <PhoneInput
+            value={tel}
+            onChange={(value: string | undefined) => setTel(value || '')}
+            placeholder={`${translations['telephone_placeholder']}`} country={"az"} onlyCountries={["az", "tr", "us", "de", "ru", "uz"]} />
         </div>
         {/* email */}
         <div className="field">
@@ -173,6 +251,7 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
           <input
             className="emailinput"
             type="email"
+            required
             onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             placeholder={`${translations['email_placeholder']}`}
             name="email"
@@ -181,11 +260,19 @@ const SelectServiceModal: React.FC<{ setServiceModal: React.Dispatch<SetStateAct
         </div>
 
         <div className="rules">
-          <input type="checkbox" />
+          <input required name="d" type="checkbox" />
           <Link to="">{translations['sexsi_melumatlarin_emali_ile_raziyam']}</Link>
         </div>
 
-        <button type="submit">{translations["gonder_button	"]}</button>
+        <button
+          type="submit"
+          disabled={loading}
+          style={{
+            pointerEvents: loading ? 'none' : 'all',
+            backgroundColor: loading ? '#eee' : '',
+            border: loading ? '1px solid #303030' : '',
+            color: loading ? '#404040' : '',
+          }}>{translations["gonder_button"]}</button>
       </form>
     </div>
   );
