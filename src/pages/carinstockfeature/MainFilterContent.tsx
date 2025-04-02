@@ -90,12 +90,12 @@ const MainFilterContent: React.FC = () => {
     const StaticFilters: StaticFilterSectionType[] = [
         {
             id: 1,
-            headSectionTitle: 'Modellər',
+            headSectionTitle: translations['modeller_title'],
             rendererFunction: <ForModel />,
         },
         {
             id: 2,
-            headSectionTitle: 'Rənglər',
+            headSectionTitle: translations['rengler'],
             rendererFunction: <ForColor />,
         },
     ]
@@ -237,7 +237,7 @@ const MainFilterContent: React.FC = () => {
             <div className="left-filters">
                 {countData !== null || undefined ? (
                     <div className="length-title">
-                        <p>{countData} Maşın tapıldı</p>
+                        <p>{countData} {translations['masin_tapildi']}</p>
                     </div>
                 ) : null}
 

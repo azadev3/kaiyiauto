@@ -2,14 +2,15 @@ import React, { ChangeEvent, FormEvent } from "react";
 import PhoneInput from "react-phone-input-2";
 import { Link } from "react-router-dom";
 import Select from "react-select";
-import { api, base, useRequests } from "../../hooks/useRequests";
+import { api, base, SeoInterface, useRequests } from "../../hooks/useRequests";
 import { Cities, ModelsType, TestDriveType } from "../../types/ApiTypes";
-import { useRecoilState } from "recoil";
-import { LoadingState } from "../../recoil/Atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { LoadingState, SelectedLanguageState } from "../../recoil/Atom";
 import axios from "axios";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { useTranslates } from "../../hooks/useTranslates";
+import { Helmet } from "react-helmet-async";
 
 const Styles = {
   control: (baseStyle: any, state: any) => ({
@@ -79,8 +80,35 @@ const TestDrivePage: React.FC = () => {
     }
   };
 
+
+  const lang = useRecoilValue(SelectedLanguageState);
+  const [seoData, setSeoData] = React.useState<SeoInterface>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${api}/testdrive-seo-front`, {
+          headers: {
+            "Accept-Language": lang
+          }
+        });
+        if (response.data) {
+          setSeoData(response.data[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [lang]);
+
+
   return (
     <main className="testdrivepage-wrapper">
+      <Helmet>
+        <title>{seoData?.meta_title}</title>
+        <meta name="description" content={seoData?.meta_description} />
+      </Helmet>
       <div className="testdrive-page">
         {hasData &&
           TestDriveData?.map((data: TestDriveType) => (

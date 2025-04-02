@@ -38,6 +38,12 @@ import { LoadingState, SelectedLanguageState } from "../recoil/Atom";
 export const api = "https://kaiyi-21d4.onrender.com/api";
 export const base = "https://kaiyi-21d4.onrender.com";
 
+export interface SeoInterface {
+  _id: string;
+  meta_title: string;
+  meta_description: string;
+}
+
 export const useRequests = () => {
 
   const selectedLang = useRecoilValue(SelectedLanguageState);

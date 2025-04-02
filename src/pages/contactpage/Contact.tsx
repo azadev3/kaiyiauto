@@ -1,12 +1,15 @@
 import React, { ChangeEvent, FormEvent } from "react";
 import PhoneInput from "react-phone-input-2";
 import { Link } from "react-router-dom";
-import { api, base, useRequests } from "../../hooks/useRequests";
+import { api, base, SeoInterface, useRequests } from "../../hooks/useRequests";
 import { KaiyiHistoryContactHero } from "../../types/ApiTypes";
 import moment from "moment";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useTranslates } from "../../hooks/useTranslates";
+import { SelectedLanguageState } from "../../recoil/Atom";
+import { useRecoilValue } from "recoil";
+import { Helmet } from "react-helmet-async";
 
 const Contact: React.FC = () => {
 
@@ -49,8 +52,34 @@ const Contact: React.FC = () => {
     }
   };
 
+
+  const lang = useRecoilValue(SelectedLanguageState);
+  const [seoData, setSeoData] = React.useState<SeoInterface>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${api}/contact-seo-front`, {
+          headers: {
+            "Accept-Language": lang
+          }
+        });
+        if (response.data) {
+          setSeoData(response.data[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [lang]);
+
   return (
     <main className="contact-wrapper">
+      <Helmet>
+        <title>{seoData?.meta_title}</title>
+        <meta name="description" content={seoData?.meta_description} />
+      </Helmet>
       <div className="contact-page">
         {hasContactHero &&
           KaiyiHistoryContactHero?.map((data: KaiyiHistoryContactHero) => (
@@ -99,7 +128,7 @@ const Contact: React.FC = () => {
               </div>
             </div>
             <button type="submit" disabled={loading}>
-            {loading ? `${translations['gonderilir_title']}` : `${translations['gonder_button']}`}
+              {loading ? `${translations['gonderilir_title']}` : `${translations['gonder_button']}`}
             </button>
           </form>
         </div>

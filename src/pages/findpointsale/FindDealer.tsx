@@ -8,12 +8,15 @@ import { FaAngleRight } from "react-icons/fa";
 import SelectServiceModal from "./uitils/SelectServiceModal";
 import Select from "react-select";
 import PhoneInput from "react-phone-input-2";
-import { api, base, useRequests } from "../../hooks/useRequests";
+import { api, base, SeoInterface, useRequests } from "../../hooks/useRequests";
 import { AddDealerData, Cities } from "../../types/ApiTypes";
 import moment from "moment";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useTranslates } from "../../hooks/useTranslates";
+import { useRecoilValue } from "recoil";
+import { SelectedLanguageState } from "../../recoil/Atom";
+import { Helmet } from "react-helmet-async";
 
 const Styles = {
   control: (baseStyle: any, state: any) => ({
@@ -219,8 +222,34 @@ const FindDealer: React.FC = () => {
     }
   };
 
+  const lang = useRecoilValue(SelectedLanguageState);
+  const [seoData, setSeoData] = React.useState<SeoInterface>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${api}/pointsale-seo-front`, {
+          headers: {
+            "Accept-Language": lang
+          }
+        });
+        if (response.data) {
+          setSeoData(response.data[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [lang]);
+
+
   return (
     <main className="dealer-page-wrapper">
+      <Helmet>
+        <title>{seoData?.meta_title || ""}</title>
+        <meta name='description' content={seoData?.meta_description || ""} />
+      </Helmet>
       <div className="dealer-page">
         <article className="top-title">
           <h1>{translations['satis_noqtesi_tap']}</h1>
@@ -246,9 +275,8 @@ const FindDealer: React.FC = () => {
           </div>
           <div className="map-body">
             <div
-              className={`container-left-results ${
-                mapWidthFull ? "hidden" : sortWidthFull ? "expanded" : "no-expanded"
-              }`}>
+              className={`container-left-results ${mapWidthFull ? "hidden" : sortWidthFull ? "expanded" : "no-expanded"
+                }`}>
               {hasData &&
                 FindDealerData?.map((city: Cities) => (
                   <div

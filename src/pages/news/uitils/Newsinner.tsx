@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { base, useRequests } from "../../../hooks/useRequests";
 import { KaiyiHistoryNews } from "../../../types/ApiTypes";
 import DOMPurify from "dompurify";
+import { Helmet } from "react-helmet-async";
 
 const Newsinner: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +17,10 @@ const Newsinner: React.FC = () => {
 
   return (
     <main className="news-inner-page-wrapper">
+      <Helmet>
+        <title>{news?.title || ""}</title>
+        <meta name="description" content={news?.description || ""} />
+      </Helmet>
       <div className="news-inner-page" key={news?._id}>
         <h1>{news?.title}</h1>
         <strong className="time">

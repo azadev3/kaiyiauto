@@ -1,8 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { base, useRequests } from "../../hooks/useRequests";
+import { api, base, SeoInterface, useRequests } from "../../hooks/useRequests";
 import { TrafficRulesBottom, TrafficRulesCall, TrafficRulesHelped, TrafficRulesHero } from "../../types/ApiTypes";
 import DOMPurify from "dompurify";
+import { SelectedLanguageState } from "../../recoil/Atom";
+import { useRecoilValue } from "recoil";
+import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 const RoadRulePage: React.FC = () => {
   //fetch road rules apis in hook
@@ -16,8 +20,33 @@ const RoadRulePage: React.FC = () => {
 
   const hasTrafficBottomData = TrafficRulesBottomData && TrafficRulesBottomData?.length > 0;
 
+  const lang = useRecoilValue(SelectedLanguageState);
+  const [seoData, setSeoData] = React.useState<SeoInterface>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${api}/roadrules-seo-front`, {
+          headers: {
+            "Accept-Language": lang
+          }
+        });
+        if (response.data) {
+          setSeoData(response.data[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [lang]);
+
   return (
     <main className="roadrule-wrapper">
+      <Helmet>
+        <title>{seoData?.meta_title}</title>
+        <meta name="description" content={seoData?.meta_description} />
+      </Helmet>
       <div className="roadrule-page">
         {hasTrafficHero &&
           TrafficRulesHeroData?.map((data: TrafficRulesHero) => (

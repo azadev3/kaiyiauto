@@ -4,6 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ScrollToTop from "./ScrollToTop.tsx";
+import { HelmetProvider } from "react-helmet-async";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +21,9 @@ createRoot(document.getElementById("root")!).render(
     <RecoilRoot>
       <BrowserRouter>
         <ScrollToTop>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
         </ScrollToTop>
       </BrowserRouter>
     </RecoilRoot>

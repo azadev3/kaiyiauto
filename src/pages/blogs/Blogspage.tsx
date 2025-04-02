@@ -1,9 +1,13 @@
 import React from "react";
 import { FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { base, useRequests } from "../../hooks/useRequests";
+import { api, base, SeoInterface, useRequests } from "../../hooks/useRequests";
 import { KaiyiHistoryBlogs } from "../../types/ApiTypes";
 import { useTranslates } from "../../hooks/useTranslates";
+import { SelectedLanguageState } from "../../recoil/Atom";
+import { useRecoilValue } from "recoil";
+import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 const Blogspage: React.FC = () => {
 
@@ -34,8 +38,33 @@ const Blogspage: React.FC = () => {
     return () => resetVideoSpeed();
   }, [hoverCover]);
 
+  const lang = useRecoilValue(SelectedLanguageState);
+  const [seoData, setSeoData] = React.useState<SeoInterface>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${api}/blog-seo-front`, {
+          headers: {
+            "Accept-Language": lang
+          }
+        });
+        if (response.data) {
+          setSeoData(response.data[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [lang]);
+
   return (
     <main className="blogs-wrapper">
+      <Helmet>
+        <title>{seoData?.meta_title}</title>
+        <meta name="description" content={seoData?.meta_description} />
+      </Helmet>
       <div className="blogs-page">
         <h1>blogs</h1>
 

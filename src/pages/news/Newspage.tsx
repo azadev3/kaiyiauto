@@ -1,14 +1,18 @@
 import React from "react";
 import { FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { base, useRequests } from "../../hooks/useRequests";
+import { api, base, SeoInterface, useRequests } from "../../hooks/useRequests";
 import { KaiyiHistoryNews } from "../../types/ApiTypes";
 import { useTranslates } from "../../hooks/useTranslates";
+import { useRecoilValue } from "recoil";
+import { SelectedLanguageState } from "../../recoil/Atom";
+import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 const Newspage: React.FC = () => {
 
   const { translations } = useTranslates();
-  
+
   const { KaiyiHistoryNews } = useRequests();
 
   const hasKaiyiNews = KaiyiHistoryNews && KaiyiHistoryNews?.length > 0;
@@ -34,8 +38,34 @@ const Newspage: React.FC = () => {
     return () => resetVideoSpeed();
   }, [hoverCover]);
 
+  const lang = useRecoilValue(SelectedLanguageState);
+  const [seoData, setSeoData] = React.useState<SeoInterface>();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${api}/new-seo-front`, {
+          headers: {
+            "Accept-Language": lang
+          }
+        });
+        if (response.data) {
+          setSeoData(response.data[0]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchData();
+  }, [lang]);
+
+
   return (
     <main className="news-wrapper">
+      <Helmet>
+        <title>{seoData?.meta_title}</title>
+        <meta name="description" content={seoData?.meta_description} />
+      </Helmet>
       <div className="news-page">
         <h1>news</h1>
 
