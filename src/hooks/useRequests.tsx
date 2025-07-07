@@ -35,7 +35,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { LoadingState, SelectedLanguageState } from "../recoil/Atom";
 
 export const api = "https://84.247.172.49/api/v2";
-export const base = "https://84.247.172.49";
+export const base = "https://84.247.172.49/api/v2";
 
 export interface SeoInterface {
   _id: string;
