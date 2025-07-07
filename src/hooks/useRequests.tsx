@@ -33,10 +33,9 @@ import {
 } from "../types/ApiTypes";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { LoadingState, SelectedLanguageState } from "../recoil/Atom";
-// https://kaiyi-21d4.onrender.com
-// export const api = "http://localhost:3000/api";
-export const api = "https://kaiyi-21d4.onrender.com/api";
-export const base = "https://kaiyi-21d4.onrender.com";
+
+export const api = "https://84.247.172.49/api/v2";
+export const base = "https://84.247.172.49";
 
 export interface SeoInterface {
   _id: string;
@@ -52,7 +51,7 @@ export const useRequests = () => {
     setLoading(true);
     try {
       const response = await axios.get(url, { headers });
-      if (url === "https://kaiyi-21d4.onrender.com/api/filter-cars") {
+      if (url === "https://84.247.172.49/api/v2/filter-cars") {
         return response?.data?.data || [];
       } else {
         return response?.data || [];
@@ -204,7 +203,7 @@ export const useRequests = () => {
       },
       {
         queryKey: ["all_cars_Data_key", selectedLang],
-        queryFn: () => fetchData("https://kaiyi-21d4.onrender.com/api/filter-cars", headers),
+        queryFn: () => fetchData("https://84.247.172.49/api/v2/filter-cars", headers),
       },
       {
         queryKey: ["socialsData", selectedLang],

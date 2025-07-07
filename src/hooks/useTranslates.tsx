@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { SelectedLanguageState } from "../recoil/Atom";
 import { TranslatesType } from "../types/ApiTypes";
 
-export const api = "https://kaiyi-21d4.onrender.com/api";
+export const api = "https://84.247.172.49/api/v2";
 // export const api = "http://localhost:3000/api";
 
 export const useTranslates = () => {

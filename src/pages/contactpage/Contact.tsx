@@ -14,9 +14,7 @@ import { Helmet } from "react-helmet-async";
 const Contact: React.FC = () => {
 
   const { translations } = useTranslates();
-
   const { KaiyiHistoryContactHero } = useRequests();
-
   const hasContactHero = KaiyiHistoryContactHero && KaiyiHistoryContactHero?.length > 0;
 
   //Send request for feedback
