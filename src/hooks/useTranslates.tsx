@@ -28,7 +28,6 @@ export const useTranslates = () => {
         const data = response.data;
 
         const translationsMap: Record<string, string> = {};
-        data &&
           data?.forEach((item: TranslatesType) => {
             if (item?.key && item?.text) {
               translationsMap[item.key] = item.text;

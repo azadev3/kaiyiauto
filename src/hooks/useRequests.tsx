@@ -65,7 +65,7 @@ export const useRequests = () => {
   };
 
 
-  const [_, setLoading] = useRecoilState(LoadingState);
+  const [, setLoading] = useRecoilState(LoadingState);
 
   const headers = {
     "Accept-Language": selectedLang,
