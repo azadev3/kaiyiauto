@@ -7,7 +7,7 @@ import { base, useRequests } from "../hooks/useRequests";
 
 const TopHeader: React.FC = () => {
   const { LogoData, TopHeaderLocation, TopHeaderTelephone } = useRequests();
-  const [_, setDropdown] = useRecoilState(HeaderDropdownState);
+  const [, setDropdown] = useRecoilState(HeaderDropdownState);
 
   const navigate = useNavigate();
 

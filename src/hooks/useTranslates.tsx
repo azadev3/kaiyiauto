@@ -3,9 +3,7 @@ import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { SelectedLanguageState } from "../recoil/Atom";
 import { TranslatesType } from "../types/ApiTypes";
-
-export const api = "https://84.247.172.49/api/v2";
-// export const api = "http://localhost:3000/api";
+import { api } from "./useRequests";
 
 export const useTranslates = () => {
   const selectedLanguage = useRecoilValue(SelectedLanguageState);

@@ -34,8 +34,8 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { LoadingState, SelectedLanguageState } from "../recoil/Atom";
 
-export const api = "https://84.247.172.49/api/v2";
-export const base = "https://84.247.172.49/api/v2";
+export const api = "https://kaiyi-21d4.onrender.com/api";
+export const base = "https://kaiyi-21d4.onrender.com/api";
 
 export interface SeoInterface {
   _id: string;
@@ -51,7 +51,7 @@ export const useRequests = () => {
     setLoading(true);
     try {
       const response = await axios.get(url, { headers });
-      if (url === "https://84.247.172.49/api/v2/filter-cars") {
+      if (url === `${api}/filter-cars`) {
         return response?.data?.data || [];
       } else {
         return response?.data || [];
@@ -203,7 +203,7 @@ export const useRequests = () => {
       },
       {
         queryKey: ["all_cars_Data_key", selectedLang],
-        queryFn: () => fetchData("https://84.247.172.49/api/v2/filter-cars", headers),
+        queryFn: () => fetchData(`${api}/filter-cars`, headers),
       },
       {
         queryKey: ["socialsData", selectedLang],
