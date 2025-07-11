@@ -35,7 +35,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { LoadingState, SelectedLanguageState } from "../recoil/Atom";
 
 export const api = "https://kaiyi-21d4.onrender.com/api";
-export const base = "https://kaiyi-21d4.onrender.com/api";
+export const base = "https://kaiyi-21d4.onrender.com";
 
 export interface SeoInterface {
   _id: string;
